@@ -1,0 +1,53 @@
+.product-card {
+    width: 180px;
+    font-family: 'Rubik';
+    span {
+        display: block;
+    }
+    .category {
+        font-size: 13px;
+        width: 100%;
+        .stars {
+            float: right;
+            color: $Gold;
+        }
+    }
+    .name {
+        font-weight: bold;
+        font-size: 18px;
+    }
+    .price {
+        font-weight: bold;
+        font-size: 18px;
+        color: $MainRed;
+        margin-top: 10px;
+    }
+    &.new {
+        .label-box {
+            background-color: $MainRed;
+            font-size: 12px;
+            text-align: center;
+            color: #fff;
+            width: fit-content;
+            padding: 7px 20px 7px 20px;
+            border-radius: 15px;
+            position: relative;
+            top: -105px;
+            left: 15px;
+        }
+    }
+    &.offer {
+        .label-box {
+            background-color: $MainRed;
+            font-size: 12px;
+            text-align: center;
+            color: #fff;
+            width: fit-content;
+            padding: 7px 20px 7px 20px;
+            border-radius: 15px;
+            position: relative;
+            top: -105px;
+            left: 15px;
+        }
+    }
+}

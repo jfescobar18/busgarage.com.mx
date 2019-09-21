@@ -1,0 +1,53 @@
+.search-box {
+    margin: 50px auto;
+    width: 500px;
+    .form-input {
+        position: relative;
+        z-index: 1;
+        form {
+            max-height: 50px;
+            height: 50px;
+            .input {
+                background: $LightGrayOpc;
+                color: #fff;
+                border: none;
+                padding: 13px 10px;
+                width: 100%;
+                font-size: 20px;
+                font-family: 'SNES';
+                letter-spacing: 3px;
+                &:focus {
+                    outline: none;
+                }
+                &::placeholder {
+                    color: #fff;
+                }
+                &:-ms-input-placeholder {
+                    color: #fff;
+                }
+                &::-ms-input-placeholder {
+                    color: #fff;
+                }
+            }
+            .search-button {
+                background: none;
+                border: none;
+                position: absolute;
+                top: 13px;
+                right: -10px;
+                z-index: 1;
+                transition: all 300ms;
+                i {
+                    color: #fff;
+                    font-size: 20px;
+                }
+                &:hover {
+                    cursor: pointer;
+                }
+            }
+            .active {
+                top: 200px;
+            }
+        }
+    }
+}

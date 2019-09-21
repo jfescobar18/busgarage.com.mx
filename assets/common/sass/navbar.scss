@@ -1,0 +1,217 @@
+.navigation {
+    height: 73px;
+    background: transparentd;
+}
+
+.brand {
+    position: absolute;
+    padding-left: 20px;
+    float: left;
+    line-height: 70px;
+    text-transform: uppercase;
+    font-size: 1.4em;
+    z-index: 1;
+    a,
+    a:visited {
+        color: $MainRed;
+        text-decoration: none;
+    }
+    a {
+        img {
+            width: 20%;
+            margin-top: 20px;
+        }
+    }
+}
+
+.nav-container {
+    margin: 0 auto;
+}
+
+nav {
+    float: right;
+    ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        li {
+            float: left;
+            position: relative;
+            a,
+            a:visited {
+                display: block;
+                padding: 0 20px;
+                line-height: 73px;
+                background: transparentd;
+                font-family: 'SNES';
+                letter-spacing: 5px;
+                font-size: 25px;
+                color: #000;
+                text-decoration: none;
+                &:hover {
+                    color: #fff;
+                }
+                &:not(:only-child):after {
+                    padding-left: 4px;
+                    content: ' ▾';
+                }
+                &.router-link-exact-active.router-link-active {
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+}
+
+.nav-mobile {
+    display: none;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: $MainRed;
+    height: 35px;
+    width: 35px;
+    border: solid #fff 3px;
+    border-radius: 15px;
+    z-index: 1;
+}
+
+@media only screen and (max-width: 798px) {
+    .nav-mobile {
+        display: block;
+    }
+    nav {
+        width: 100%;
+        padding: 73px 0 15px;
+        ul {
+            li {
+                float: none;
+                margin-left: 10px;
+                z-index: 10;
+                a {
+                    padding: 15px;
+                    line-height: 20px;
+                }
+                ul li a {
+                    padding-left: 30px;
+                }
+            }
+        }
+        .nav-list {
+            transition: height 0.25s ease-in-out;
+            overflow: hidden;
+        }
+        .nav-list.active {
+            margin-top: 20px;
+            margin-left: 20px;
+        }
+        .nav-list:not(.active) {
+            display: none !important;
+        }
+        .fa-shopping-cart {
+            font-size: 15px;
+            transform: translateY(-5px);
+        }
+    }
+    div.shopping-cart {
+        display: none;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    nav {
+        ul {
+            li {
+                &:first-child {
+                    margin-left: 33px;
+                }
+            }
+            li.shopping-cart {
+                display: none;
+            }
+        }
+    }
+    .nav-list {
+        display: block !important;
+        position: absolute;
+        left: 33%;
+        margin-top: 20px;
+        z-index: 1;
+    }
+}
+
+@media (min-width: 799px) {
+    .nav-list{
+        left: 25%;
+    }
+}
+
+@media (min-width: 950px) {
+    .nav-list{
+        left: 27%;
+    }
+}
+
+@media (min-width: 1024px) {
+    .nav-list{
+        left: 29%;
+    }
+}
+
+@media (min-width: 1100px) {
+    .nav-list{
+        left: 31%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .nav-list{
+        left: 33%;
+    }
+}
+
+@media (min-width: 1300px) {
+    .nav-list{
+        left: 36%;
+    }
+}
+
+#nav-toggle {
+    position: absolute;
+    left: 8px;
+    top: 6px;
+    cursor: pointer;
+    padding: 10px 35px 16px 0px;
+    span,
+    span:before,
+    span:after {
+        cursor: pointer;
+        border-radius: 1px;
+        height: 4px;
+        width: 20px;
+        background: #fff;
+        position: absolute;
+        display: block;
+        content: '';
+        transition: all 300ms ease-in-out;
+    }
+    span:before {
+        top: -10px;
+    }
+    span:after {
+        bottom: -10px;
+    }
+    &.active span {
+        background-color: transparent;
+        &:before,
+        &:after {
+            top: 0;
+        }
+        &:before {
+            transform: rotate(45deg);
+        }
+        &:after {
+            transform: rotate(-45deg);
+        }
+    }
+}

@@ -1,0 +1,19 @@
+.product-display {
+    margin-bottom: 54px;
+    h1 {
+        text-align: center;
+        text-decoration: underline;
+        padding: 20px 0 20px 0;
+    }
+    .cards {
+        .product-card {
+            margin: 0 auto !important;
+            img {
+                width: 100%;
+            }
+            &:hover {
+                cursor: pointer;
+            }
+        }
+    }
+}

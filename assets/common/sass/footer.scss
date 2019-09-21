@@ -1,0 +1,48 @@
+.footer {
+    background-color: $DarkGray;
+    text-align: center;
+    h1,
+    h4 {
+        margin: 0;
+        padding: $GenralFooterPadding 0 $GenralFooterPadding 0;
+    }
+    h1 {
+        text-decoration: underline;
+        color: #fff;
+    }
+    h4 {
+        font-family: 'SNES';
+        a {
+            color: #fff;
+            text-decoration: none;
+            letter-spacing: 3px;
+            font-size: 13px;
+        }
+    }
+    .social-container {
+        padding-bottom: $GenralFooterPadding;
+        width: 100%;
+        display: flex;
+        .icon-container {
+            width: 20%;
+            i {
+                padding: 15px;
+                background-color: $MainRed;
+                color: #fff;
+                font-size: 25px;
+                border-radius: 50%;
+                &:hover {
+                    background-color: #fff;
+                    color: $MainRed;
+                }
+            }
+            .fa-facebook-f {
+                padding: 15px 20px 15px 20px;
+            }
+        }
+    }
+    hr {
+        margin: 0 auto;
+        width: 90%;
+    }
+}

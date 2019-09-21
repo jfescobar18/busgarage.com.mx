@@ -1,0 +1,29 @@
+@import 'fonts';
+@import 'variables';
+@import 'slick';
+@import 'navbar';
+@import 'search';
+@import 'slider';
+@import 'product-display';
+@import 'products';
+@import 'off-banner';
+@import 'all-products';
+@import 'footer';
+html {
+    line-height: 1.15;
+    -webkit-text-size-adjust: 100%
+}
+
+body {
+    margin: 0
+}
+
+h1 {
+    font-family: 'SNES';
+    letter-spacing: 5px;
+    font-size: 35px;
+}
+
+.slider-separator {
+    margin-top: 447px;
+}
