@@ -1,0 +1,17 @@
+.about-us {
+    h1 {
+        text-align: center;
+        text-decoration: underline;
+    }
+    h1:not(fitst-child) {
+        margin-top: 50px; 
+    }
+    hr {
+        width: 80%;
+        margin: 30px auto;
+    }
+    p {
+        font-family: 'Rubik';
+        padding: 0 30px;
+    }
+}
