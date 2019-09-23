@@ -1,6 +1,246 @@
-.all-products {
+    .all-products {
     h1 {
         text-align: center;
         text-decoration: underline;
+    }
+    .categories {
+        font-family: 'SNES';
+        text-align: center;
+        letter-spacing: 3px;
+        text-align: center;
+        a {
+            width: 25%;
+            display: inline-table;
+            margin-top: 10px;
+            color: #000;
+            text-decoration: none;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+        .show-all {
+            width: 100%;
+            display: block;
+        }
+    }
+    .products {
+        width: 100%;
+        display: inline-table;
+        .card {
+            margin-top: 30px;
+            display: inline-table;
+            width: 25%;
+            &:hover {
+                cursor: pointer;
+            }
+            .product-card {
+                width: 80%;
+                margin: 0 auto;
+                img {
+                    width: 100%;
+                }
+            }
+        }
+    }
+    .navigation {
+        text-align: center;
+        margin-top: 30px;
+        a {
+            font-family: 'Rubik';
+            color: #000;
+            text-decoration: none;
+            margin: 0 5px 0 5px;
+            &.active {
+                text-decoration: underline;
+            }
+        }
+        i {
+            color: $MainRed;
+            font-size: 20px;
+            padding-top: 2px;
+            transform: translateY(2px);
+            &:hover {
+                cursor: pointer;
+            }
+            &.first-page, &.last-page {
+                display: none;
+            }
+        }
+    }
+}
+
+@media (min-width: 320px) {
+    .all-products {
+        .products {
+            .card {
+                width: 80%;
+                margin-left: 10%;
+                .product-card {
+                    .label-box {
+                        top: -125px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (min-width: 320px) {
+    .all-products {
+        .products {
+            .card {
+                .product-card {
+                    .label-box {
+                        top: -145px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (min-width: 420px) {
+    .all-products {
+        .products {
+            .card {
+                .product-card {
+                    .label-box {
+                        top: -170px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (min-width: 480px) {
+    .all-products {
+        .products {
+            .card {
+                width: 40%;
+                margin-left: 7%;
+                .product-card {
+                    .label-box {
+                        top: -95px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (min-width: 520px) {
+    .all-products {
+        .products {
+            .card {
+                .product-card {
+                    .label-box {
+                        top: -110px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (min-width: 600px) {
+    .all-products {
+        .products {
+            .card {
+                width: 33.33%;
+                margin-left: 0%;
+                .product-card {
+                    .label-box {
+                        top: -100px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (min-width: 768px) {
+    .all-products {
+        .products {
+            .card {
+                .product-card {
+                    .label-box {
+                        top: -130px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (min-width: 900px) {
+    .all-products {
+        .products {
+            .card {
+                .product-card {
+                    .label-box {
+                        top: -155px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (min-width: 1024px) {
+    .all-products {
+        .products {
+            .card {
+                width: 25%;
+                margin-left: 0%;
+                .product-card {
+                    .label-box {
+                        top: -125px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (min-width: 1180px) {
+    .all-products {
+        .products {
+            .card {
+                .product-card {
+                    .label-box {
+                        top: -150px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (min-width: 1280px) {
+    .all-products {
+        .products {
+            .card {
+                .product-card {
+                    .label-box {
+                        top: -165px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (min-width: 1400px) {
+    .all-products {
+        .products {
+            .card {
+                .product-card {
+                    .label-box {
+                        top: -187px;
+                    }
+                }
+            }
+        }
     }
 }

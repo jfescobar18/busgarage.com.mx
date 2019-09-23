@@ -1,0 +1,101 @@
+.product-information {
+    h1 {
+        font-family: 'Rubik';
+        letter-spacing: initial;
+        margin-left: 20px;
+        margin-bottom: 5px;
+    }
+    .product-container {
+        display: block;
+        .product-galery {
+            margin-bottom: 70px;
+            img {
+                width: 100%;
+            }
+        }
+        .product-config {
+            background-color: rgba(216, 62, 55, 0.7);
+            border-radius: 30px 30px 0px 0px;
+            color: #fff;
+            font-family: 'Rubik';
+            padding: 10px 30px 30px 30px;
+            p {
+                padding-left: 30px;
+                padding-right: 30px;
+            }
+            form {
+                .size-container {
+                    text-align: center;
+                    label:not(:first-child) {
+                        margin-left: 50px;
+                    }
+                    label {
+                        font-size: 25px;
+                        padding: 10px 5px 10px 10px;
+                        &.active {
+                            border: solid #fff 1px;
+                        }
+                    }
+                    input[type="checkbox"] {
+                        display: none;
+                    }
+                }
+                .color-container {
+                    text-align: center;
+                    label:not(:first-child) {
+                        margin-left: 50px;
+                    }
+                    label {
+                        &::before {
+                            content: ' \25CF';
+                            font-size: 40px;
+                        }
+                        &.active {
+                            &::before {
+                                text-shadow: #606060 0px 0px 5px, #606060 0px 0px 5px, #606060 0px 0px 5px, #606060 0px 0px 5px, #606060 0px 0px 5px, #606060 0px 0px 5px;
+                            }
+                        }
+                    }
+                    input[type="checkbox"] {
+                        display: none;
+                    }
+                }
+                button {
+                    margin-top: 30px;
+                    margin-bottom: 70px;
+                    width: 100%;
+                    background: #d83e37;
+                    color: #fff;
+                    font-family: 'Rubik';
+                    letter-spacing: 5px;
+                    font-size: 20px;
+                    text-decoration: none;
+                    padding: 10px 30px 10px 30px;
+                    border: solid #fff 2px;
+                    border-radius: 15px;
+                }
+            }
+        }
+    }
+}
+
+@media (min-width: 768px) {
+    .product-information {
+        .product-container {
+            display: flex;
+            .product-galery {
+                width: 25%;
+                .slick-next,
+                .slick-prev {
+                    top: 15%;
+                }
+                .slick-dots {
+                    bottom: 55%;
+                }
+            }
+            .product-config {
+                width: 60%;
+            }
+        }
+    }
+}

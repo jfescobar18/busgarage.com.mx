@@ -54,10 +54,10 @@ var navbar = Vue.component('navbar', {
                                 <router-link class="" to="/shop">Shop</router-link>
                             </li>
                             <li>
-                                <router-link class="" to="#">About Us</router-link>
+                                <router-link class="" to="/about">About Us</router-link>
                             </li>
                             <li>
-                                <router-link class="" to="#"><i class="fas fa-shopping-cart"></i></router-link>
+                                <router-link class="" to="/kart"><i class="fas fa-shopping-cart"></i></router-link>
                             </li>
                         </ul>
                     </nav>

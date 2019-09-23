@@ -1,7 +1,12 @@
 var product_card = Vue.component('product-card', {
+    methods: {
+        buyProduct: function () {
+            this.$router.push('/buy');
+        }
+    },
     template: `
         <div>
-            <div class="product-card new">
+            <div class="product-card new" v-on:click="buyProduct();">
                 <img src="./assets/common/img/product1.jpg" />
                 <div class="label-box">NEW</div>
                 
