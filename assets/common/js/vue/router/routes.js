@@ -11,11 +11,17 @@ import product_information from '../components/product-information.js'
 import kart from '../components/kart.js'
 import off_banner from '../components/off-banner.js'
 import all_products from '../components/all-products.js'
+import coming_soon from '../components/coming-soon.js'
 import garage_footer from '../components/garage-footer.js'
 
 const routes = [
     {
         path: '/',
+        name: 'coming-soon',
+        component: coming_soon
+    },
+    {
+        path: '/home',
         name: 'home',
         component: home
     },
