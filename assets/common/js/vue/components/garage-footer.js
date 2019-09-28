@@ -8,13 +8,13 @@ var garage_footer = Vue.component('garage-footer', {
                         <a href="#" target="_blank"><i class="fas fa-envelope"></i></a>
                     </div>
                     <div class="icon-container">
-                        <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.instagram.com/busgaragevw/" target="_blank"><i class="fab fa-instagram"></i></a>
                     </div>
                     <div class="icon-container">
-                        <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.facebook.com/BUSGARAGEVW/" target="_blank"><i class="fab fa-facebook-f"></i></a>
                     </div>
                     <div class="icon-container">
-                        <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+                        <a href="https://www.youtube.com/channel/UCEnJtU5GXlKKeD1ax_cIBIA" target="_blank"><i class="fab fa-youtube"></i></a>
                     </div>
                     <div class="icon-container">
                         <a href="#" target="_blank"><i class="fab fa-whatsapp"></i></a>

@@ -6,7 +6,7 @@ var coming_soon = Vue.component('coming-soon', {
     },
     template: `
         <div>
-            <h1><small>PROXIMAMENTE</small> <img src="./assets/common/img/logo.png" /> <small>TIENDA EN LINEA</small></h1>
+            <h1 class="slider-header"><small>PROXIMAMENTE</small> <img src="./assets/common/img/logo.png" /> <small>TIENDA EN LINEA</small></h1>
             <!-- You can add more ".slideshow-image" elements, but remember to update the "$items" variable on SCSS -->
             <div class="slideshow">
                 <div class="slideshow-image" style="background-image: url('./assets/common/img/vw1.jpg')"></div>
@@ -24,6 +24,10 @@ var coming_soon = Vue.component('coming-soon', {
     `,
     mounted() {
         this.initLanding();
+    },
+    beforeDestroy() {
+        var footer = document.getElementsByClassName('footer')[0];
+        footer.className = footer.className.replace(/\bfooterHiden\b/g, "");
     }
 });
 

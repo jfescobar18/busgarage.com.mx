@@ -5,7 +5,29 @@ $scale: 20%;
 $total-time: ($animation-time * $items);
 $scale-base-1: (1 + $scale / 100%);
 .footerHiden {
-    display: none !important;
+    position: fixed !important;
+    width: 100%;
+    z-index: 999;
+    bottom: 0;
+    h1 {
+        padding: 15px 0 15px 0 !important;
+        font-size: 24.5px !important;
+    }
+    .social-container .icon-container {
+        i {
+            padding: 13px !important;
+            font-size: 18px !important;
+        }
+        .fa-facebook-f {
+            padding: 13px 18px 13px 18px !important;
+        }
+    }
+    hr {
+        display: none;
+    }
+    h4 {
+        display: none;
+    }
 }
 
 .slideshow {
@@ -91,10 +113,9 @@ $scale-base-1: (1 + $scale / 100%);
     }
 }
 
-// Presentational stuff
-h1 {
+h1.slider-header {
     position: absolute;
-    top: 50%;
+    top: 35%;
     left: 50%;
     transform: translate3d(-50%, -50%, 0);
     z-index: 99;

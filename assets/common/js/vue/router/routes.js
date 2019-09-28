@@ -11,6 +11,9 @@ import product_information from '../components/product-information.js'
 import kart from '../components/kart.js'
 import off_banner from '../components/off-banner.js'
 import all_products from '../components/all-products.js'
+import kart_card from '../components/kart-card.js'
+import checkout from '../components/checkout.js'
+import payment from '../components/payment.js'
 import coming_soon from '../components/coming-soon.js'
 import garage_footer from '../components/garage-footer.js'
 
@@ -44,6 +47,16 @@ const routes = [
         path: '/kart',
         name: 'kart',
         component: kart
+    },
+    {
+        path: '/checkout',
+        name: 'checkout',
+        component: checkout
+    },
+    {
+        path: '/payment',
+        name: 'payment',
+        component: payment
     }
 ];
 
