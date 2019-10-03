@@ -2,7 +2,7 @@ var checkout = Vue.component('checkout', {
     template: `
         <div>
             <navbar></navbar>
-            <form action="" class="checkout-form">
+            <form action="" class="payment-checkout-form">
                 <div class="input-container">
                     <label for="name">Nombre de quien recibe</label>
                     <input id="name" type="text" placeholder="Nombre de quien recibe"/>
