@@ -1,5 +1,5 @@
 var all_products = Vue.component('all-products', {
-    props: ['category', 'page'],
+    props: ['category', 'page', 'AllProducts'],
     methods: {
         LogURL: function () {
             console.log(this.$route.params['category'], this.$route.params['page']);
@@ -8,7 +8,7 @@ var all_products = Vue.component('all-products', {
 
             var first = document.getElementById('prev');
             var last = document.getElementById('next');
-            if (this.page === '1') {
+            if (this.page === '1' || this.page === undefined) {
                 first.className += ' first-page';
             }
             else {
@@ -20,6 +20,31 @@ var all_products = Vue.component('all-products', {
             else {
                 last.className = last.className.replace(/\blast-page\b/g, "");
             }
+        },
+        loadAllProducts: function () {
+            showLoader();
+            this.$http.get(APIUrl() + 'AdminContent/GetAllProducts', {
+                headers: {
+                    APIKey: config.BusgarageAPIKey
+                }
+            }).then(
+                response => {
+                    if (response.body.length > 0) {
+                        this.AllProducts = response.body.map(function (x) {
+                            x.Product_Price = formatMoney(x.Product_Price);
+                            x.Product_Price_Total = formatMoney(x.Product_Price_Total);
+                            x.Product_Img = APIUrl() + x.Product_Img;
+                            return x
+                        });
+                    }
+                    hideLoader();
+                },
+                err => {
+                    console.log(err);
+                    error_swal('Error...', 'Error interno estamos trabajando para solucionarlo');
+                    hideLoader();
+                }
+            );
         }
     },
     template: `
@@ -27,7 +52,7 @@ var all_products = Vue.component('all-products', {
             <div class="all-products">
                 <h1>Categorias</h1>
                 <div class="categories">
-                    <router-link class="show-all" to="#/all/1">Todos los productos</router-link>
+                    <router-link class="show-all" to="/shop/all/1">Todos los productos</router-link>
 
                     <router-link class="" to="/shop/cat1/1">Categoria 1</router-link>
                     <router-link class="" to="/shop/cat2/1">Categoria 2</router-link>
@@ -38,16 +63,7 @@ var all_products = Vue.component('all-products', {
                 </div>
 
                 <div class="products">
-                    <product-card class="card"></product-card>
-                    <product-card class="card"></product-card>
-                    <product-card class="card"></product-card>
-                    <product-card class="card"></product-card>
-                    <product-card class="card"></product-card>
-                    <product-card class="card"></product-card>
-                    <product-card class="card"></product-card>
-                    <product-card class="card"></product-card>
-                    <product-card class="card"></product-card>
-                    <product-card class="card"></product-card>
+                    <product-card v-for="product in AllProducts" v-bind:Product="product" class="card"></product-card>
                 </div>
 
                 <div class="navigation">
@@ -68,6 +84,7 @@ var all_products = Vue.component('all-products', {
     },
     mounted() {
         this.LogURL();
+        this.loadAllProducts();
     }
 });
 

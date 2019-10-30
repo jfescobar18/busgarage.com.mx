@@ -84,3 +84,11 @@
         }
     }
 }
+
+@media (min-width: 768px) {
+    .input-container {
+        &:nth-child(8) {
+            margin-left: 8%;
+        }
+    }
+}

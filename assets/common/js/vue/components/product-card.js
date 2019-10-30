@@ -1,4 +1,5 @@
 var product_card = Vue.component('product-card', {
+    props: ['Product'],
     methods: {
         buyProduct: function () {
             this.$router.push('/buy');
@@ -7,21 +8,21 @@ var product_card = Vue.component('product-card', {
     template: `
         <div>
             <div class="product-card new" v-on:click="buyProduct();">
-                <img src="./assets/common/img/product1.jpg" />
-                <div class="label-box">NEW</div>
+                <img v-bind:src="Product.Product_Img" />
+                <div v-if="Product.Product_Is_New && Product.Product_Released" class="label-box">NEW</div>
                 
                 <span class="category">
-                    Category 
-                    <span class="stars">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                        <i class="far fa-star"></i>
+                    {{Product.Category_Name}} 
+                    <span v-if="Product.Product_Released" class="stars">
+                        <ranking v-bind:ProductRanking="Product.Product_Ranking"></ranking>
                     </span>
                 </span>
-                <span class="name">Name</span>
-                <span class="price">$100</span>
+                <span class="name">{{Product.Product_Name}}</span>
+                <span v-if="Product.Product_Disscount > 0" class="name">-{{Product.Product_Disscount}}%</span>
+
+                <span v-if="Product.Product_Disscount > 0" class="price"><s>{{Product.Product_Price}}</s></span>
+                <span v-else class="price">{{Product.Product_Price}}</span>
+                <span v-if="Product.Product_Disscount > 0" class="price">{{Product.Product_Price_Total}}</span>
             </div>
         </div>
     `

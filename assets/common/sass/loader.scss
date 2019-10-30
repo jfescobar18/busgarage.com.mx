@@ -1,0 +1,136 @@
+.icon-credit {
+    position: fixed;
+    bottom: 5px;
+    width: 100%;
+    text-align: center;
+    font-size: 11px;
+    a {
+        color: #222;
+    }
+}
+
+.loader {
+    &.displayed {
+        display: flex;
+    }
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(119, 117, 117, 0.4);
+    background-image: radial-gradient(rgba(136, 136, 136, 0.4), rgba(85, 85, 85, 0.4));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    display: none;
+    &::before,
+    &::after {
+        content: '';
+        position: absolute;
+        border-radius: 50%;
+    }
+    &::before {
+        width: 265px;
+        height: 265px;
+        border: 11px solid #111;
+    }
+    &::after {
+        width: 95px;
+        height: 95px;
+        border: 8px solid #111;
+    }
+}
+
+.car {
+    position: relative;
+    z-index: 1;
+    -webkit-transform-origin: bottom bottom;
+    transform-origin: bottom bottom;
+    -webkit-animation: drift 3.2s linear infinite;
+    animation: drift 3.2s linear infinite;
+    &::before,
+    &::after {
+        content: '';
+        position: absolute;
+        top: 10px;
+        border-radius: 50%;
+    }
+    &::before {
+        background: #eee;
+        -webkit-animation: smoke 0.5s linear infinite;
+        animation: smoke 0.5s linear infinite;
+    }
+    &::after {
+        background: #eee;
+        -webkit-animation: smoke 0.5s linear 0.7s infinite;
+        animation: smoke 0.5s linear 0.7s infinite;
+    }
+}
+
+svg {
+    position: relative;
+    width: 150px;
+    padding: 0 0 150px;
+    z-index: 1;
+}
+
+#galery-modal .contentcontainer {
+    display: flex;
+    &:not(:last-child) img {
+        width: 50%;
+    }
+}
+
+@-webkit-keyframes smoke {
+    from {
+        left: 65px;
+        width: 0px;
+        height: 0px;
+        opacity: 1;
+    }
+    to {
+        left: -10px;
+        width: 40px;
+        height: 40px;
+        opacity: 0;
+    }
+}
+
+@keyframes smoke {
+    from {
+        left: 65px;
+        width: 0px;
+        height: 0px;
+        opacity: 1;
+    }
+    to {
+        left: -10px;
+        width: 40px;
+        height: 40px;
+        opacity: 0;
+    }
+}
+
+@-webkit-keyframes drift {
+    from {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes drift {
+    from {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}

@@ -1,5 +1,5 @@
 var product_display = Vue.component('product-display', {
-    props: ['title'],
+    props: ['title', 'Products'],
     methods: {
         initSlick: function () {
             $('.cards').not('.slick-initialized').slick({
@@ -41,16 +41,12 @@ var product_display = Vue.component('product-display', {
             <div class="product-display">
                 <h1>{{ title }}</h1>
                 <div class="cards">
-                    <product-card></product-card>
-                    <product-card></product-card>
-                    <product-card></product-card>
-                    <product-card></product-card>
-                    <product-card></product-card>
+                    <product-card v-for="product in Products" v-bind:Product="product"></product-card>
                 </div>
             </div>
         </div>
     `,
-    mounted() {
+    updated() {
         this.initSlick();
     }
 });
