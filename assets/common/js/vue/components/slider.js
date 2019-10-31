@@ -20,6 +20,7 @@ var slider = Vue.component('slider', {
                     hideLoader();
                 }
             );
+            hideLoader();
         },
     },
     template: `
@@ -35,9 +36,13 @@ var slider = Vue.component('slider', {
             </div>
         </div>
     `,
-    created: function () {
+    mounted: function () {
         this.loadSlider();
-    }
+    },
+    updated: function () {
+        this.loadSlider();
+    },
+    
 });
 
 export default slider;

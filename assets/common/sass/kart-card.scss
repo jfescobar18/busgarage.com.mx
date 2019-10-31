@@ -65,10 +65,16 @@ hr.kart-end {
 }
 
 .delete {
-    a {
+    button {
         font-family: 'Rubik';
         text-decoration: none;
         color: $MainRed;
+        background: none;
+        border: none;
+        outline: none;
+        &:hover{
+            cursor: pointer;
+        }
         i {
             color: $MainRed;
         }

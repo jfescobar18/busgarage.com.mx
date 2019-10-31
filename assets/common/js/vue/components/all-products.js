@@ -1,5 +1,18 @@
 var all_products = Vue.component('all-products', {
-    props: ['category', 'page', 'AllProducts'],
+    props: {
+        category: {
+            default: 'all'
+        },
+        page: {
+            default: 1
+        },
+        Categories: {
+            default: {}
+        },
+        Products: {
+            default: {}
+        }
+    },
     methods: {
         LogURL: function () {
             console.log(this.$route.params['category'], this.$route.params['page']);
@@ -21,6 +34,24 @@ var all_products = Vue.component('all-products', {
                 last.className = last.className.replace(/\blast-page\b/g, "");
             }
         },
+        loadCategories: function () {
+            showLoader();
+            this.$http.get(APIUrl() + 'AdminContent/GetCategories', {
+                headers: {
+                    APIKey: config.BusgarageAPIKey
+                }
+            }).then(
+                response => {
+                    this.Categories = response.body;
+                    hideLoader();
+                },
+                err => {
+                    console.log(err);
+                    error_swal('Error...', 'Error interno estamos trabajando para solucionarlo');
+                    hideLoader();
+                }
+            );
+        },
         loadAllProducts: function () {
             showLoader();
             this.$http.get(APIUrl() + 'AdminContent/GetAllProducts', {
@@ -30,7 +61,7 @@ var all_products = Vue.component('all-products', {
             }).then(
                 response => {
                     if (response.body.length > 0) {
-                        this.AllProducts = response.body.map(function (x) {
+                        this.Products = response.body.map(function (x) {
                             x.Product_Price = formatMoney(x.Product_Price);
                             x.Product_Price_Total = formatMoney(x.Product_Price_Total);
                             x.Product_Img = APIUrl() + x.Product_Img;
@@ -54,16 +85,11 @@ var all_products = Vue.component('all-products', {
                 <div class="categories">
                     <router-link class="show-all" to="/shop/all/1">Todos los productos</router-link>
 
-                    <router-link class="" to="/shop/cat1/1">Categoria 1</router-link>
-                    <router-link class="" to="/shop/cat2/1">Categoria 2</router-link>
-                    <router-link class="" to="/shop/cat3/1">Categoria 3</router-link>
-                    <router-link class="" to="/shop/cat4/1">Categoria 4</router-link>
-                    <router-link class="" to="/shop/cat5/1">Categoria 5</router-link>
-                    <router-link class="" to="/shop/cat6/1">Categoria 6</router-link>
+                    <router-link v-for="category in Categories" class="" v-bind:to="'/shop/' + category.Category_Id +''">{{ category.Category_Name }}</router-link>
                 </div>
 
                 <div class="products">
-                    <product-card v-for="product in AllProducts" v-bind:Product="product" class="card"></product-card>
+                    <product-card v-for="product in Products" v-bind:Product="product" class="card"></product-card>
                 </div>
 
                 <div class="navigation">
@@ -83,8 +109,7 @@ var all_products = Vue.component('all-products', {
         }
     },
     mounted() {
-        this.LogURL();
-        this.loadAllProducts();
+        this.loadCategories();
     }
 });
 

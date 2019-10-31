@@ -63,7 +63,13 @@ var shop = Vue.component('shop', {
     created: function () {
         this.loadNewProducts();
         this.loadDiscountProducts();
-    }
+    },
+    watch: {
+        '$route': function (to, from) {
+            this.loadNewProducts();
+            this.loadDiscountProducts();
+        }
+    },
 });
 
 export default shop;

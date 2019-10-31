@@ -1,77 +1,144 @@
 var product_information = Vue.component('product-information', {
+    props: {
+        Product: {
+            default: {}
+        },
+        Galery: {
+            default: {}
+        },
+        Configuration: {
+            default: {
+                color: [],
+                size: []
+            }
+        },
+        KartItem: {
+            default: {
+                Product_Id: 0,
+                Price: 0,
+                Color: '',
+                Size: ''
+            }
+        },
+        displayColorMessage: {
+            default: 'none'
+        },
+        displaySizeMessage: {
+            default: 'none'
+        }
+    },
     methods: {
         initSlick: function () {
-            $('.product-galery').not('.slick-initialized').slick({
-                dots: true,
-                infinite: false,
-                speed: 300,
-                slidesToShow: 1,
-                slidesToScroll: 1,
-            });
+            for (let i = 0; i < this.Galery.length; i++) {
+                $('.product-galery').not('.slick-initialized').slick({
+                    dots: true,
+                    infinite: false,
+                    speed: 300,
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                });
+            }
         },
         selectOnlyThis: function (id) {
             var OptionType = id.replace(/\d/g, '');
             var LabelType = 'lbl' + OptionType;
             var LabelId = LabelType + id.replace(OptionType, '');
-            
-            for (var i = 1; i <= 4; i++) {
-                document.getElementById(OptionType + i).checked = false;
-                let label = document.getElementById(LabelType + i);
-                label.className = label.className.replace(/\bactive\b/g, '');
+
+            var iterations = this.Configuration.color.length > this.Configuration.size.length ? this.Configuration.color.length : this.Configuration.size.length
+
+            for (var i = 0; i < iterations; i++) {
+                try {
+                    document.getElementById(OptionType + i).checked = false;
+                    let label = document.getElementById(LabelType + i);
+                    label.className = label.className.replace(/\bactive\b/g, '');
+                } catch (error) {
+                    console.log(error);
+                }
             }
             document.getElementById(id).checked = true;
             document.getElementById(LabelId).className += ' active';
+
+            if (id.includes('OptColor')) {
+                this.KartItem.Color = document.getElementById(id).value;
+            }
+            else {
+                this.KartItem.Size = document.getElementById(id).value;
+            }
+        },
+        addtoKart: function () {
+            var addProductToKart = true;
+
+            this.KartItem.Product_Id = this.Product.Product_Id;
+
+            if (this.Configuration.color.length > 0 && this.KartItem.Color.length == 0) {
+                this.displayColorMessage = 'initial';
+                addProductToKart = false;
+            }
+
+            if (this.Configuration.size.length > 0 && this.KartItem.Size.length == 0) {
+                this.displaySizeMessage = 'initial';
+                addProductToKart = false;
+            }
+
+            if (addProductToKart) {
+                console.log(localStorage.getItem('Kart'));
+                
+                var Kart = JSON.parse(localStorage.getItem('Kart'));
+
+                if (Kart === null || Kart === undefined) {
+                    Kart = [this.KartItem];
+                    localStorage.setItem('Kart', JSON.stringify(Kart));
+                }
+                else {
+                    Kart.push(this.KartItem);
+                    localStorage.setItem('Kart', JSON.stringify(Kart));
+                }
+                this.$router.push("/Kart");
+            }
         }
     },
     template: `
         <div>
             <div class="product-information">
-                <h1>Name</h1>
+                <h1>{{ Product.Product_Name }}</h1>
                 <div class="product-container">
                     <div class="product-galery">
-                        <img src="./assets/common/img/product1.jpg" />
-                        <img src="./assets/common/img/product1.jpg" />
-                        <img src="./assets/common/img/product1.jpg" />
-                        <img src="./assets/common/img/product1.jpg" />
-                        <img src="./assets/common/img/product1.jpg" />
+                        <img v-for="image in Galery" v-bind:src="image.Product_Galery_Image_Img"  />
                     </div>
                     <div class="product-config">
-                        <h2>$100</h2>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus exercitationem sint sunt cum labore. Aperiam autem veritatis facere ipsa. Eum modi quas suscipit consectetur molestiae vero! Porro veniam ducimus corporis.</p>
-                        <form action="">
-                            <h2>Option</h2>
-                            <div class="size-container">
-                                <label id="lblOptSize1" htmlFor="OptSize1" class="">
-                                    S
-                                    <input type="checkbox" id="OptSize1" value="Value1" v-on:click="selectOnlyThis('OptSize1')" />
-                                </label>
-                                <label id="lblOptSize2" htmlFor="OptSize2" class="">
-                                    L
-                                    <input type="checkbox" id="OptSize2" value="Value1" v-on:click="selectOnlyThis('OptSize2')" />
-                                </label>
-                                <label id="lblOptSize3" htmlFor="OptSize3" class="">
-                                    M
-                                    <input type="checkbox" id="OptSize3" value="Value1" v-on:click="selectOnlyThis('OptSize3')" />
-                                </label>
-                                <label id="lblOptSize4" htmlFor="OptSize4" class="">
-                                    XL
-                                    <input type="checkbox" id="OptSize4" value="Value1" v-on:click="selectOnlyThis('OptSize4')" />
-                                </label>
+                        <h2>{{ Product.Product_Price_Total }}</h2>
+                        <p>{{ Product.Product_Description }}</p>
+                        <form v-on:submit.prevent="addtoKart">
+                            <div v-if="Configuration.color.length > 0">
+                                <h2>Color</h2>
+                                <p v-bind:style="'display: ' + displayColorMessage">Selecciona una opción</p>
+                                <div class="color-container">
+                                    <label v-for="(color, index) in Configuration.color" v-bind:id="'lblOptColor' + index" v-bind:htmlFor="'OptColor' + index" class="" v-bind:style="'color: #' + color">    
+                                        <input type="checkbox" v-bind:id="'OptColor' + index" v-bind:value="color" v-on:click="selectOnlyThis('OptColor' + index)" />
+                                    </label>
+                                </div>
                             </div>
-                            <h2>Option</h2>
-                            <div class="color-container">
-                                <label id="lblOptColor1" htmlFor="OptColor1" class="" style="color: #fff">    
-                                    <input type="checkbox" id="OptColor1" value="Value1" v-on:click="selectOnlyThis('OptColor1')" />
-                                </label>
-                                <label id="lblOptColor2" htmlFor="OptColor2" class="" style="color: #000">
-                                    <input type="checkbox" id="OptColor2" value="Value1" v-on:click="selectOnlyThis('OptColor2')" />
-                                </label>
-                                <label id="lblOptColor3" htmlFor="OptColor3" class="" style="color: #89c630">
-                                    <input type="checkbox" id="OptColor3" value="Value1" v-on:click="selectOnlyThis('OptColor3')" />
-                                </label>
-                                <label id="lblOptColor4" htmlFor="OptColor4" class="" style="color: #d93e37">
-                                    <input type="checkbox" id="OptColor4" value="Value1" v-on:click="selectOnlyThis('OptColor4')" />
-                                </label>
+                            <div v-if="Configuration.size.length > 0">
+                                <h2>Tamaño/Talla</h2>
+                                <p v-bind:style="'display: ' + displaySizeMessage">Selecciona una opción</p>
+                                <div class="size-container">
+                                    <label id="lblOptSize1" htmlFor="OptSize1" class="">
+                                        S
+                                        <input type="checkbox" id="OptSize1" value="Value1" v-on:click="selectOnlyThis('OptSize1')" />
+                                    </label>
+                                    <label id="lblOptSize2" htmlFor="OptSize2" class="">
+                                        L
+                                        <input type="checkbox" id="OptSize2" value="Value1" v-on:click="selectOnlyThis('OptSize2')" />
+                                    </label>
+                                    <label id="lblOptSize3" htmlFor="OptSize3" class="">
+                                        M
+                                        <input type="checkbox" id="OptSize3" value="Value1" v-on:click="selectOnlyThis('OptSize3')" />
+                                    </label>
+                                    <label id="lblOptSize4" htmlFor="OptSize4" class="">
+                                        XL
+                                        <input type="checkbox" id="OptSize4" value="Value1" v-on:click="selectOnlyThis('OptSize4')" />
+                                    </label>
+                                </div>
                             </div>
                             <button type="submit" >Agregar al Carrito <i class="fas fa-shopping-cart"></i></button>
                         </form>
@@ -80,8 +147,13 @@ var product_information = Vue.component('product-information', {
             </div>
         </div>
     `,
-    mounted() {
+    updated() {
         this.initSlick();
+    },
+    watch: {
+        Product: function (newVal, oldVal) {
+            this.Configuration = JSON.parse(this.Product.Product_Configurations);
+        }
     }
 });
 

@@ -30,7 +30,7 @@ const routes = [
         component: home
     },
     {
-        path: '/shop/:category?/:page?',
+        path: '/shop/:category?/',
         name: 'shop',
         component: shop
     },
@@ -40,7 +40,7 @@ const routes = [
         component: about
     },
     {
-        path: '/buy',
+        path: '/buy/:Product_Id',
         name: 'buy',
         component: buy_product
     },

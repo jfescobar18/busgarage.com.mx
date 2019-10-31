@@ -35,7 +35,7 @@ var off_banner = Vue.component('off-banner', {
             </div>
         </div>
     `,
-    created: function () {
+    mounted: function () {
         this.loadBanner();
     }
 });

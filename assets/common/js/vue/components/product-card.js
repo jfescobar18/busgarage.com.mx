@@ -1,13 +1,17 @@
 var product_card = Vue.component('product-card', {
-    props: ['Product'],
+    props: {
+        Product: {
+            default: {}
+        }
+    },
     methods: {
-        buyProduct: function () {
-            this.$router.push('/buy');
+        buyProduct: function (Product_Id) {
+            this.$router.push(`/buy/${Product_Id}`);
         }
     },
     template: `
         <div>
-            <div class="product-card new" v-on:click="buyProduct();">
+            <div class="product-card new" v-on:click="buyProduct(Product.Product_Id);">
                 <img v-bind:src="Product.Product_Img" />
                 <div v-if="Product.Product_Is_New && Product.Product_Released" class="label-box">NEW</div>
                 
