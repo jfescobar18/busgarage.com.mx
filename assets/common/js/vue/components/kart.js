@@ -12,8 +12,6 @@ var kart = Vue.component('kart', {
     },
     methods: {
         loadKart: function () {
-            console.log(localStorage.getItem('Kart'));
-            
             this.Kart = JSON.parse(localStorage.getItem('Kart'));
             var ProductIds = this.Kart.map(x => x.Product_Id).join(',');
 
