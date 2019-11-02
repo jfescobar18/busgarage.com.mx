@@ -58,6 +58,7 @@ var kart = Vue.component('kart', {
     },
     template: `
         <div>
+            <navbar></navbar>
             <kart-card v-for="product in Products" v-bind:Product="product"></kart-card>
             <p class="total">Total: <span>{{ Total }}</span></p>
             <router-link to="/checkout" class="go-checkout">Proceder al Pago</router-link>

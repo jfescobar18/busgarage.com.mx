@@ -1,5 +1,12 @@
 var home = Vue.component('home', {
-    props: ['NewProducts', 'SoonProducts'],
+    props: {
+        NewProducts: {
+            default: {}
+        },
+        SoonProducts: {
+            default: {}
+        }
+    },
     methods: {
         loadNewProducts: function () {
             showLoader();
@@ -63,6 +70,16 @@ var home = Vue.component('home', {
     created: function () {
         this.loadNewProducts();
         this.loadSoonProducts();
+    },
+    updated: function () {
+        if (this.NewProducts.length === 0) {
+            this.loadNewProducts();
+        }
+        if (this.SoonProducts.length === 0) {
+            this.loadSoonProducts();
+        }
+
+
     }
 });
 

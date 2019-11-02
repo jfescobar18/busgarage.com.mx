@@ -1,5 +1,12 @@
 var shop = Vue.component('shop', {
-    props: ['NewProducts', 'DiscountProducts'],
+    props: {
+        NewProducts: {
+            default: {}
+        },
+        DiscountProducts: {
+            default: {}
+        }
+    },
     methods: {
         loadNewProducts: function () {
             showLoader();
@@ -61,6 +68,10 @@ var shop = Vue.component('shop', {
         </div>
     `,
     created: function () {
+        this.loadNewProducts();
+        this.loadDiscountProducts();
+    },
+    mounted: function () {
         this.loadNewProducts();
         this.loadDiscountProducts();
     },

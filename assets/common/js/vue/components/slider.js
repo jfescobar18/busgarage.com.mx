@@ -1,5 +1,9 @@
 var slider = Vue.component('slider', {
-    props: ['Slider'],
+    props: {
+        Slider: {
+            default: {}
+        }
+    },
     methods: {
         loadSlider: function () {
             showLoader();
@@ -9,10 +13,12 @@ var slider = Vue.component('slider', {
                 }
             }).then(
                 response => {
-                    this.Slider = response.body.map(function (x) {
-                        x.Slider_Image_Img = APIUrl() + x.Slider_Image_Img;
-                        return x
-                    });
+                    if (this.Slider.length === 0 || this.Slider.length === undefined) {
+                        this.Slider = response.body.map(function (x) {
+                            x.Slider_Image_Img = APIUrl() + x.Slider_Image_Img;
+                            return x
+                        });
+                    }
                     hideLoader();
                 },
                 err => {
@@ -20,7 +26,6 @@ var slider = Vue.component('slider', {
                     hideLoader();
                 }
             );
-            hideLoader();
         },
     },
     template: `
@@ -41,8 +46,7 @@ var slider = Vue.component('slider', {
     },
     updated: function () {
         this.loadSlider();
-    },
-    
+    }
 });
 
 export default slider;

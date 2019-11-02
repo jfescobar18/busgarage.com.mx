@@ -1,5 +1,9 @@
 var off_banner = Vue.component('off-banner', {
-    props: ['Banner'],
+    props: {
+        Banner: {
+            default: {}
+        }
+    },
     methods: {
         loadBanner: function () {
             showLoader();

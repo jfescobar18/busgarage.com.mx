@@ -20,12 +20,12 @@ import garage_footer from '../components/garage-footer.js'
 
 const routes = [
     {
-        path: '/',
+        path: '/coming-soon',
         name: 'coming-soon',
         component: coming_soon
     },
     {
-        path: '/home',
+        path: '/',
         name: 'home',
         component: home
     },
