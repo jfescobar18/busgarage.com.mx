@@ -77,42 +77,50 @@ var all_products = Vue.component('all-products', {
             this.addActivePageNumber();
 
             if (this.category === undefined || this.category === 'all') {
-                this.TotalPages = 1;
-
-                for (let i = 0; i < this.Products.length; i++) {
-                    this.Products[i].Product_Page = this.TotalPages;
-                    if ((i + 1) % 12 == 0) {
-                        this.TotalPages++;
-                    }
-                }
-
-                this.FilteredProducts = this.Products;
-
-                this.CurrentPageProducts = this.FilteredProducts.filter(function (product) {
-                    return product.Product_Page === 1;
-                });
+                this.showAllProducts();
             }
             else {
                 this.filterProductsByCategory();
             }
         },
-        filterProductsByCategory: function () {
-            var cat = parseInt(this.category);
-            this.FilteredProducts = this.Products.filter(function (product) {
-                return product.Category_Id === cat;
-            });
-
+        showAllProducts: function () {
             this.TotalPages = 1;
-            for (let i = 0; i < this.FilteredProducts.length; i++) {
-                this.FilteredProducts[i].Product_Page = this.TotalPages;
+
+            for (let i = 0; i < this.Products.length; i++) {
+                this.Products[i].Product_Page = this.TotalPages;
                 if ((i + 1) % 12 == 0) {
                     this.TotalPages++;
                 }
             }
 
+            this.FilteredProducts = this.Products;
+
             this.CurrentPageProducts = this.FilteredProducts.filter(function (product) {
                 return product.Product_Page === 1;
             });
+        },
+        filterProductsByCategory: function () {
+            if (this.category === undefined || this.category === 'all') {
+                this.showAllProducts();
+            }
+            else {
+                let cat = parseInt(this.category);
+                this.FilteredProducts = this.Products.filter(function (product) {
+                    return product.Category_Id === cat;
+                });
+
+                this.TotalPages = 1;
+                for (let i = 0; i < this.FilteredProducts.length; i++) {
+                    this.FilteredProducts[i].Product_Page = this.TotalPages;
+                    if ((i + 1) % 12 == 0) {
+                        this.TotalPages++;
+                    }
+                }
+
+                this.CurrentPageProducts = this.FilteredProducts.filter(function (product) {
+                    return product.Product_Page === 1;
+                });
+            }
         },
         goToPage: function (page) {
             this.page = page;
@@ -140,7 +148,7 @@ var all_products = Vue.component('all-products', {
             else {
                 first.className = first.className.replace(/\bfirst-page\b/g, "");
             }
-            
+
             if (this.page === this.TotalPages && this.TotalPages >= 1) {
                 last.className += ' last-page';
             }

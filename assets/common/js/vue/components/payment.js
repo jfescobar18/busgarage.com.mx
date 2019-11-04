@@ -3,6 +3,9 @@ var checkout = Vue.component('checkout', {
         Order: {
             default: {}
         },
+        paymentMethod: {
+            default: 'card'
+        },
         deviceSessionId: {
             defaukt: ''
         },
@@ -54,49 +57,53 @@ var checkout = Vue.component('checkout', {
     },
     methods: {
         paymentValidation: function () {
-            this.Card = this.Card.split(' ').join('');
-            setTimeout(() => {
-                OpenPay.token.extractFormAndCreate($('#payment-form'),
-                    response => {
-                        console.log(response);
-
-                        this.token_id = response.data.id;
-                        if (response.data.card.points_card) {
-                            swal({
-                                title: "Pagar con Puntos",
-                                text: "¿Desea usar los puntos de su tarjeta para realizar este pago?",
-                                icon: "warning",
-                                buttons: ["No", "Sí"],
-                                dangerMode: false,
-                            }).then((usePoints) => {
-                                if (usePoints) {
-                                    this.use_card_points = true;
-                                    this.processPayment();
-                                } else {
-                                    this.use_card_points = false;
-                                    this.processPayment();
-                                }
-                            });
+            if (this.paymentMethod === 'car') {
+                this.Card = this.Card.split(' ').join('');
+                setTimeout(() => {
+                    OpenPay.token.extractFormAndCreate($('#payment-form'),
+                        response => {
+                            this.token_id = response.data.id;
+                            if (response.data.card.points_card) {
+                                swal({
+                                    title: "Pagar con Puntos",
+                                    text: "¿Desea usar los puntos de su tarjeta para realizar este pago?",
+                                    icon: "warning",
+                                    buttons: ["No", "Sí"],
+                                    dangerMode: false,
+                                }).then((usePoints) => {
+                                    if (usePoints) {
+                                        this.use_card_points = true;
+                                        this.processCardPayment();
+                                    } else {
+                                        this.use_card_points = false;
+                                        this.processCardPayment();
+                                    }
+                                });
+                            }
+                            else {
+                                this.use_card_points = false;
+                                this.processCardPayment();
+                            }
+                        }, err => {
+                            console.log(err);
+                            this.clearPaymentData();
+                            warning_swal('Error de validación', 'Por favor verifique sus datos o consulte a su banco para mayor información');
                         }
-                        else {
-                            this.use_card_points = false;
-                            this.processPayment();
-                        }
-                    }, err => {
-                        console.log(err);
-                        this.clearPaymentData();
-                        warning_swal('Error de validación', 'Por favor verifique sus datos o consulte a su banco para mayor información');
-                    }
-                );
-            }, 250);
+                    );
+                }, 250);
+            }
+            else {
+                this.processStorePayment();
+            }
         },
-        processPayment: function () {
+        processCardPayment: function () {
             showLoader();
             this.$http.post(APIUrl() + 'Payment/ProcessOrder', {
                 JsonOrder: JSON.stringify(this.Order),
                 Name: this.Name,
                 PhoneNumber: this.Order.Order_Client_Phone,
                 Email: this.Order.Order_Client_Email,
+                Method: 'card',
                 TokenId: this.token_id,
                 Amount: this.Order.Total_Ammount,
                 DeviceSessionId: this.deviceSessionId,
@@ -107,8 +114,58 @@ var checkout = Vue.component('checkout', {
                 }
             }).then(
                 response => {
-                    console.log(response);
                     hideLoader();
+                    this.clearPaymentData();
+                    swal({
+                        title: "Gracias por tu compra",
+                        text: "En breve te haremos llegar tu número de guía a tu correo",
+                        icon: "success"
+                    }).then(() => {
+                        localStorage.removeItem('Kart');
+                        localStorage.removeItem('OrderJson');
+                        this.$router.push("/Shop");
+                    });
+                },
+                err => {
+                    console.log(err);
+                    error_swal('Error...', 'Error interno estamos trabajando para solucionarlo');
+                    hideLoader();
+                }
+            );
+        },
+        processStorePayment: function () {
+            console.log('Store');
+            showLoader();
+            this.$http.post(APIUrl() + 'Payment/ProcessOrder', {
+                JsonOrder: JSON.stringify(this.Order),
+                Name: this.Order.Order_Client_Name,
+                PhoneNumber: this.Order.Order_Client_Phone,
+                Email: this.Order.Order_Client_Email,
+                Method: 'store',
+                Amount: this.Order.Total_Ammount
+            }, {
+                headers: {
+                    APIKey: config.BusgarageAPIKey
+                }
+            }).then(
+                response => {
+                    console.log(response.body);
+
+                    hideLoader();
+                    this.clearPaymentData();
+                    swal({
+                        title: "Gracias por tu compra",
+                        text: "En cuanto tengamos tu pago te haremos llegar tu número de guía a tu correo",
+                        icon: "success"
+                    }).then(() => {
+                        localStorage.removeItem('Kart');
+                        localStorage.removeItem('OrderJson');
+                        if (this.paymentMethod === 'store') {
+                            var win = window.open(`https://sandbox-dashboard.openpay.mx/paynet-pdf/${config.OpenpayID}/${response.body.OpenpayResponse.payment_method.reference}`, '_blank');
+                            win.focus();
+                        }
+                        this.$router.push("/Shop");
+                    });
                 },
                 err => {
                     console.log(err);
@@ -139,6 +196,7 @@ var checkout = Vue.component('checkout', {
         },
         useShipmentAddress: function () {
             if (!this.Use_Shipment_Address) {
+                this.Name = this.Order.Order_Client_Name;
                 this.Order_Client_Zip = this.Order.Order_Client_Zip;
                 this.Order_Client_Province = this.Order.Order_Client_Province;
                 this.Order_Client_City = this.Order.Order_Client_City;
@@ -172,12 +230,13 @@ var checkout = Vue.component('checkout', {
     template: `
         <div>
             <navbar></navbar>
+            <h1 class="align-center">Pago con Tarjeta</h1>
             <form v-on:submit.prevent="paymentValidation" class="payment-checkout-form" id="payment-form">
                 <input type="hidden" id="token_id" v-model="token_id">
                 <input type="hidden" id="use_card_points" v-value="use_card_points" value="false">
                 <div class="input-container">
                     <label for="name">Nombre del Titular</label>
-                    <input id="name" type="text" placeholder="Nombre del Titular" v-model="Name" autocomplete="off" data-openpay-card="holder_name" />
+                    <input required id="name" type="text" placeholder="Nombre del Titular" v-model="Name" autocomplete="off" data-openpay-card="holder_name" />
                 </div>
                 <div class="input-container">
                     <label for="card">Número de Tarjeta</label>
@@ -229,7 +288,12 @@ var checkout = Vue.component('checkout', {
                     <label for="styled-checkbox-1">Usar información de envío</label>
                 </div>
                 <input type="hidden" data-openpay-card-address="country_code" size="3" value="MX">
-                <button type="submit">Pagar</button>
+                <div class="submit-container">
+                    <button type="submit">Pagar</button>
+                    <h1 class="align-center no-mb">No tienes tarjeta?</h1>
+                    <p class="align-center no-mt">Usaremos tu información de envío de la página anterior</p>
+                    <button class="pay-store" type="button" v-on:click="processStorePayment">Pagar en Tienda de conveniencia</button>
+                </div>
             </form>
         </div>
     `,

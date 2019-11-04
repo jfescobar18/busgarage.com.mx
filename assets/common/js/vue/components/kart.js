@@ -12,7 +12,6 @@ var kart = Vue.component('kart', {
     },
     methods: {
         loadKart: function () {
-            this.Kart = JSON.parse(localStorage.getItem('Kart'));
             var ProductIds = this.Kart.map(x => x.Product_Id).join(',');
 
             showLoader();
@@ -38,7 +37,7 @@ var kart = Vue.component('kart', {
                     for (let i = 0; i < this.Kart.length; i++) {
                         this.Products[i].Product_Kart_Id = i + 1;
                         this.Kart[i].Product_Kart_Id = i + 1;
-                        
+
                         this.Products[i].Product_Configurations = {
                             color: this.Kart[i].Color,
                             size: this.Kart[i].Size,
@@ -58,13 +57,23 @@ var kart = Vue.component('kart', {
     template: `
         <div>
             <navbar></navbar>
-            <kart-card v-for="product in Products" v-bind:Product="product"></kart-card>
-            <p class="total">Total: <span>{{ Total }}</span></p>
-            <router-link to="/checkout" class="go-checkout">Proceder al Pago</router-link>
+            <div class="align-center" v-if="Kart === null || Kart === undefined">
+                <h1>Tu carrito de compras esta vacio</h1>
+                <img src="./assets//common/img/sadVW.jpg" />
+            </div>
+            <div v-else>
+                <kart-card v-for="product in Products" v-bind:Product="product"></kart-card>
+                <p class="total">Total: <span>{{ Total }}</span></p>
+                <router-link to="/checkout" class="go-checkout">Proceder al Pago</router-link>
+            </div>
         </div>
     `,
     created: function () {
-        this.loadKart();
+        this.Kart = JSON.parse(localStorage.getItem('Kart'));console.log(this.Kart);
+        
+        if (this.Kart !== null) {
+            this.loadKart();
+        }
     }
 });
 

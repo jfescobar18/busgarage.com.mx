@@ -68,6 +68,7 @@ var checkout = Vue.component('checkout', {
                 Order_Client_City: this.Order_Client_City,
                 Order_Client_Zip: this.Order_Client_Zip,
                 Order_Client_Comments: this.Order_Client_Comments,
+                Kart_Json: JSON.stringify(this.cat_Kart),
                 Order_Product_Ids: Order_Product_Ids
             }
 

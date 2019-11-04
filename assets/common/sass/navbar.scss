@@ -48,9 +48,6 @@ nav {
                 font-size: 25px;
                 color: #000;
                 text-decoration: none;
-                &:hover {
-                    color: #fff;
-                }
                 &:not(:only-child):after {
                     padding-left: 4px;
                     content: ' ▾';
@@ -138,37 +135,37 @@ nav {
 }
 
 @media (min-width: 799px) {
-    .nav-list{
+    .nav-list {
         left: 25%;
     }
 }
 
 @media (min-width: 950px) {
-    .nav-list{
+    .nav-list {
         left: 27%;
     }
 }
 
 @media (min-width: 1024px) {
-    .nav-list{
+    .nav-list {
         left: 29%;
     }
 }
 
 @media (min-width: 1100px) {
-    .nav-list{
+    .nav-list {
         left: 31%;
     }
 }
 
 @media (min-width: 1200px) {
-    .nav-list{
+    .nav-list {
         left: 33%;
     }
 }
 
 @media (min-width: 1300px) {
-    .nav-list{
+    .nav-list {
         left: 36%;
     }
 }

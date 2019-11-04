@@ -37,6 +37,9 @@
             }
         }
     }
+    .submit-container {
+        margin-bottom: 30px;
+    }
     .select-container {
         width: 37%;
     }
@@ -49,10 +52,10 @@
     }
     button {
         margin-top: 70px;
-        margin-bottom: 70px;
+        margin-bottom: 25px;
         width: 33%;
         margin-left: 33%;
-        background: #d83e37;
+        background: $MainRed;
         color: #fff;
         font-family: 'Rubik';
         letter-spacing: 5px;
@@ -61,12 +64,20 @@
         padding: 10px 30px 10px 30px;
         border: solid #fff 2px;
         border-radius: 15px;
+        &.pay-store {
+            background: $DarkGray;
+            margin-top: 0;
+            width: 25%;
+            margin: 0 auto;
+            display: block;
+        }
     }
 }
 
 .styled-checkbox {
     position: absolute;
     opacity: 0;
+    width: auto !important;
     &+label {
         position: relative;
         cursor: pointer;
