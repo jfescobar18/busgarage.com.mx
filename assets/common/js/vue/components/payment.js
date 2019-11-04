@@ -3,9 +3,6 @@ var checkout = Vue.component('checkout', {
         Order: {
             default: {}
         },
-        paymentMethod: {
-            default: 'card'
-        },
         deviceSessionId: {
             defaukt: ''
         },
@@ -57,44 +54,39 @@ var checkout = Vue.component('checkout', {
     },
     methods: {
         paymentValidation: function () {
-            if (this.paymentMethod === 'car') {
-                this.Card = this.Card.split(' ').join('');
-                setTimeout(() => {
-                    OpenPay.token.extractFormAndCreate($('#payment-form'),
-                        response => {
-                            this.token_id = response.data.id;
-                            if (response.data.card.points_card) {
-                                swal({
-                                    title: "Pagar con Puntos",
-                                    text: "¿Desea usar los puntos de su tarjeta para realizar este pago?",
-                                    icon: "warning",
-                                    buttons: ["No", "Sí"],
-                                    dangerMode: false,
-                                }).then((usePoints) => {
-                                    if (usePoints) {
-                                        this.use_card_points = true;
-                                        this.processCardPayment();
-                                    } else {
-                                        this.use_card_points = false;
-                                        this.processCardPayment();
-                                    }
-                                });
-                            }
-                            else {
-                                this.use_card_points = false;
-                                this.processCardPayment();
-                            }
-                        }, err => {
-                            console.log(err);
-                            this.clearPaymentData();
-                            warning_swal('Error de validación', 'Por favor verifique sus datos o consulte a su banco para mayor información');
+            this.Card = this.Card.split(' ').join('');
+            setTimeout(() => {
+                OpenPay.token.extractFormAndCreate($('#payment-form'),
+                    response => {
+                        this.token_id = response.data.id;
+                        if (response.data.card.points_card) {
+                            swal({
+                                title: "Pagar con Puntos",
+                                text: "¿Desea usar los puntos de su tarjeta para realizar este pago?",
+                                icon: "warning",
+                                buttons: ["No", "Sí"],
+                                dangerMode: false,
+                            }).then((usePoints) => {
+                                if (usePoints) {
+                                    this.use_card_points = true;
+                                    this.processCardPayment();
+                                } else {
+                                    this.use_card_points = false;
+                                    this.processCardPayment();
+                                }
+                            });
                         }
-                    );
-                }, 250);
-            }
-            else {
-                this.processStorePayment();
-            }
+                        else {
+                            this.use_card_points = false;
+                            this.processCardPayment();
+                        }
+                    }, err => {
+                        console.log(err);
+                        this.clearPaymentData();
+                        warning_swal('Error de validación', 'Por favor verifique sus datos o consulte a su banco para mayor información');
+                    }
+                );
+            }, 250);
         },
         processCardPayment: function () {
             showLoader();
@@ -134,7 +126,6 @@ var checkout = Vue.component('checkout', {
             );
         },
         processStorePayment: function () {
-            console.log('Store');
             showLoader();
             this.$http.post(APIUrl() + 'Payment/ProcessOrder', {
                 JsonOrder: JSON.stringify(this.Order),
@@ -160,10 +151,8 @@ var checkout = Vue.component('checkout', {
                     }).then(() => {
                         localStorage.removeItem('Kart');
                         localStorage.removeItem('OrderJson');
-                        if (this.paymentMethod === 'store') {
-                            var win = window.open(`https://sandbox-dashboard.openpay.mx/paynet-pdf/${config.OpenpayID}/${response.body.OpenpayResponse.payment_method.reference}`, '_blank');
-                            win.focus();
-                        }
+                        var win = window.open(`https://sandbox-dashboard.openpay.mx/paynet-pdf/${config.OpenpayID}/${response.body.OpenpayResponse.payment_method.reference}`, '_blank');
+                        win.focus();
                         this.$router.push("/Shop");
                     });
                 },
