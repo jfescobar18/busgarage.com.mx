@@ -192,7 +192,7 @@ var checkout = Vue.component('checkout', {
         }
 
         OpenPay.setId(config.OpenpayID);
-        OpenPay.setApiKey(config.OpenpayAPIKey);
+        OpenPay.setApiKey(config.OpenpayPublicKey);
         OpenPay.setSandboxMode(config.OpenpayUseSandBox);
         var deviceSessionId = OpenPay.deviceData.setup("payment-form", "deviceIdHiddenFieldName");
     }

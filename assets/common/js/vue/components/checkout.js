@@ -47,26 +47,6 @@ var checkout = Vue.component('checkout', {
         }
     },
     methods: {
-        addOrder: function () {
-            showLoader();
-            this.$http.post(APIUrl() + 'AdminContent/AddKart', {
-                Kart_Json_Config: JSON.stringify(this.cat_Kart.Kart_Json_Config)
-            }, {
-                headers: {
-                    APIKey: config.BusgarageAPIKey
-                }
-            }).then(
-                response => {
-                    this.cat_Kart.Kart_Id = response.body.Kart_Id
-                    this.postOrder();
-                    hideLoader();
-                },
-                err => {
-                    console.log(err);
-                    hideLoader();
-                }
-            );
-        },
         saveOrder: function () {
             showLoader();
             var OrderJson = {
