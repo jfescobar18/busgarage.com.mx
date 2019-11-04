@@ -191,9 +191,9 @@ var checkout = Vue.component('checkout', {
             this.$router.push("/checkout");
         }
 
-        OpenPay.setId('mq80c4ao1hfxur9s1etd');
-        OpenPay.setApiKey('pk_62b6cfc2793e4bc9b25f92cf06e4cd24');
-        OpenPay.setSandboxMode(true);
+        OpenPay.setId(config.OpenpayID);
+        OpenPay.setApiKey(config.OpenpayAPIKey);
+        OpenPay.setSandboxMode(config.OpenpayUseSandBox);
         var deviceSessionId = OpenPay.deviceData.setup("payment-form", "deviceIdHiddenFieldName");
     }
 });
