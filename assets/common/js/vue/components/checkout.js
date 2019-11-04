@@ -1,6 +1,6 @@
 var checkout = Vue.component('checkout', {
     props: {
-        cat_Karts: {
+        cat_Kart: {
             default: {}
         },
         Order_Client_Name: {
@@ -41,20 +41,23 @@ var checkout = Vue.component('checkout', {
         },
         Address_Number2: {
             default: ''
+        },
+        SuburbList: {
+            default: {}
         }
     },
     methods: {
         addOrder: function () {
             showLoader();
             this.$http.post(APIUrl() + 'AdminContent/AddKart', {
-                Kart_Json_Config: this.cat_Karts.Kart_Json_Config
+                Kart_Json_Config: JSON.stringify(this.cat_Kart.Kart_Json_Config)
             }, {
                 headers: {
                     APIKey: config.BusgarageAPIKey
                 }
             }).then(
                 response => {
-                    this.cat_Karts = response.body;
+                    this.cat_Kart.Kart_Id = response.body.Kart_Id
                     this.postOrder();
                     hideLoader();
                 },
@@ -64,81 +67,40 @@ var checkout = Vue.component('checkout', {
                 }
             );
         },
-        postOrder: function () {
+        saveOrder: function () {
             showLoader();
-            this.$http.post(APIUrl() + 'AdminContent/AddOrder', {
-                Kart_Id: this.Kart_Id,
+            var OrderJson = {
+                Kart_Id: this.cat_Kart.Kart_Id,
                 Order_Client_Name: this.Order_Client_Name,
                 Order_Client_Email: this.Order_Client_Email,
                 Order_Client_Phone: this.Order_Client_Phone,
-                Order_Client_Address1: `${this.Address_Street} Num. ${this.Address_Number1}`,
-                Order_Client_Address2: `Ext. ${this.Address_Number2} Col. ${this.Order_Client_Suburb}`,
+                Address_Street: this.Address_Street,
+                Address_Number1: this.Address_Number1,
+                Address_Number2: this.Address_Number2,
+                Order_Client_Suburb: this.Order_Client_Suburb,
                 Order_Client_Province: this.Order_Client_Province,
                 Order_Client_City: this.Order_Client_City,
                 Order_Client_Zip: this.Order_Client_Zip,
                 Order_Client_Comments: this.Order_Client_Comments
-            }, {
+            }
+
+            localStorage.setItem('OrderJson', JSON.stringify(OrderJson));
+            this.$router.push("/payment");
+            hideLoader();
+        },
+        getSuburbs: function () {
+            showLoader();
+            this.$http.get(APIUrl() + `AdminContent/GetSuburbs/${this.Order_Client_Zip}`, {
                 headers: {
                     APIKey: config.BusgarageAPIKey
                 }
             }).then(
                 response => {
-
-                    hideLoader();
-                },
-                err => {
-                    console.log(err);
-                    hideLoader();
-                }
-            );
-        },
-        addOrderToSkydropx: function () {
-            showLoader();
-            this.$http.post('https://api-demo.srenvio.com/v1/shipments', {
-                address_from: {
-                    province: '',
-                    city: '',
-                    name: '',
-                    zip: 0,
-                    country: 'MXN',
-                    address1: '',
-                    company: '',
-                    address2: '',
-                    phone: 0,
-                    email: ''
-                },
-                parcels: [{
-                    weight: 0,
-                    distance_unit: 'CM',
-                    mass_unit: 'KG',
-                    height: 0,
-                    width: 0,
-                    length: 0
-                }]
-            }, {
-                headers: {
-                    token: config.SkydropxAPIKey
-                }
-            }).then(
-                response => {
-
-                    hideLoader();
-                },
-                err => {
-                    console.log(err);
-                    hideLoader();
-                }
-            );
-        },
-        TestAPIKey: function () {
-            showLoader();
-            this.$http.get('https://api-demo.srenvio.com/v1/shipments', {
-                headers: {
-                    Authorization: `Token ${config.BusgarageAPIKey}`
-                }
-            }).then(
-                response => {
-                    console.log(response);
+                    if (response.body.length > 0) {
+                        this.SuburbList = response.body;
+                        this.Order_Client_City = response.body[0].D_mnpio;
+                        this.Order_Client_Province = response.body[0].d_estado;
+                    }
                     hideLoader();
                 },
                 err => {
@@ -151,7 +113,7 @@ var checkout = Vue.component('checkout', {
     template: `
         <div>
             <navbar></navbar>
-            <form v-on:submit.prevent="addOrder" class="payment-checkout-form">
+            <form v-on:submit.prevent="saveOrder" class="payment-checkout-form">
                 <div class="input-container">
                     <label for="name">Nombre de quien recibe</label>
                     <input required id="name" type="text" placeholder="Nombre de quien recibe" v-model="Order_Client_Name"/>
@@ -166,7 +128,7 @@ var checkout = Vue.component('checkout', {
                 </div>
                 <div class="input-container">
                     <label for="zip">Código Postal</label>
-                    <input required id="zip" type="text" placeholder="Código Postal" v-model="Order_Client_Zip"/>
+                    <input required id="zip" type="text" placeholder="Código Postal" v-model="Order_Client_Zip" v-on:change="getSuburbs"/>
                 </div>
                 <div class="input-container">
                     <label for="state">Estado</label>
@@ -180,6 +142,7 @@ var checkout = Vue.component('checkout', {
                     <label for="suburb">Colonia</label>
                     <select required id="suburb" v-model="Order_Client_Suburb">
                         <option selected disabled value="">Seleccione una opción</option>
+                        <option v-for="suburb in SuburbList" v-bind:value="suburb.d_asenta">{{ suburb.d_asenta }}</option>
                     </select>
                 </div>
                 <div class="input-container">
@@ -201,14 +164,13 @@ var checkout = Vue.component('checkout', {
                     <textarea id="comments" type="text" placeholder="Comentarios" v-model="Order_Client_Comments"></textarea>
                 </div>
                 <button type="submit">Continuar al Pago</button>
-                <button type="button" v-on:click="TestAPIKey">Test</button>
             </form>
         </div>
     `,
     mounted() {
-        this.cat_Karts.Kart_Json_Config = JSON.parse(localStorage.getItem('Kart'));
+        this.cat_Kart.Kart_Json_Config = JSON.parse(localStorage.getItem('Kart'));
 
-        if (this.cat_Karts.Kart_Json_Config === null || this.cat_Karts.Kart_Json_Config === undefined) {
+        if (this.cat_Kart.Kart_Json_Config === null || this.cat_Kart.Kart_Json_Config === undefined) {
             this.$router.push("/Shop");
         }
     }

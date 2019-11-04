@@ -32,3 +32,27 @@ function hideLoader() {
     var loader = document.getElementById('loader');
     loader.className = loader.className.replace(/\bdisplayed\b/g, '');
 }
+
+function error_swal(title, message) {
+    swal({
+        icon: "error",
+        title: title,
+        text: message
+    });
+}
+
+function warning_swal(title, message) {
+    swal({
+        icon: "info",
+        title: title,
+        text: message
+    });
+}
+
+function succes_swal(title, message) {
+    swal({
+        icon: "success",
+        title: title,
+        text: message
+    });
+}

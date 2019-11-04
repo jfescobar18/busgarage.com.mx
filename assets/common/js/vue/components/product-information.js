@@ -81,8 +81,6 @@ var product_information = Vue.component('product-information', {
             }
 
             if (addProductToKart) {
-                console.log(localStorage.getItem('Kart'));
-                
                 var Kart = JSON.parse(localStorage.getItem('Kart'));
 
                 if (Kart === null || Kart === undefined) {
