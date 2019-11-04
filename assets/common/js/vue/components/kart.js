@@ -49,6 +49,7 @@ var kart = Vue.component('kart', {
                 },
                 err => {
                     console.log(err);
+                    error_swal('Error...', 'Error interno estamos trabajando para solucionarlo');
                     hideLoader();
                 }
             );

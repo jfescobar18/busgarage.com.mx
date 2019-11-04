@@ -49,8 +49,14 @@ var checkout = Vue.component('checkout', {
     methods: {
         saveOrder: function () {
             showLoader();
+
+            var Order_Product_Ids = this.cat_Kart.reduce(function (Ids, product) {
+                return Ids += product.Product_Id + ',';
+            }, 0);
+
+            Order_Product_Ids = Order_Product_Ids.substring(0, Order_Product_Ids.length - 1);
+
             var OrderJson = {
-                Kart_Id: this.cat_Kart.Kart_Id,
                 Order_Client_Name: this.Order_Client_Name,
                 Order_Client_Email: this.Order_Client_Email,
                 Order_Client_Phone: this.Order_Client_Phone,
@@ -61,7 +67,8 @@ var checkout = Vue.component('checkout', {
                 Order_Client_Province: this.Order_Client_Province,
                 Order_Client_City: this.Order_Client_City,
                 Order_Client_Zip: this.Order_Client_Zip,
-                Order_Client_Comments: this.Order_Client_Comments
+                Order_Client_Comments: this.Order_Client_Comments,
+                Order_Product_Ids: Order_Product_Ids
             }
 
             localStorage.setItem('OrderJson', JSON.stringify(OrderJson));
@@ -85,6 +92,7 @@ var checkout = Vue.component('checkout', {
                 },
                 err => {
                     console.log(err);
+                    error_swal('Error...', 'Error interno estamos trabajando para solucionarlo');
                     hideLoader();
                 }
             );
@@ -148,9 +156,9 @@ var checkout = Vue.component('checkout', {
         </div>
     `,
     mounted() {
-        this.cat_Kart.Kart_Json_Config = JSON.parse(localStorage.getItem('Kart'));
+        this.cat_Kart = JSON.parse(localStorage.getItem('Kart'));
 
-        if (this.cat_Kart.Kart_Json_Config === null || this.cat_Kart.Kart_Json_Config === undefined) {
+        if (this.cat_Kart === null || this.cat_Kart === undefined) {
             this.$router.push("/Shop");
         }
     }

@@ -3,11 +3,14 @@ var checkout = Vue.component('checkout', {
         Order: {
             default: {}
         },
+        deviceSessionId: {
+            defaukt: ''
+        },
         token_id: {
             default: ''
         },
         use_card_points: {
-            default: ''
+            default: false
         },
         Card: {
             default: ''
@@ -55,6 +58,8 @@ var checkout = Vue.component('checkout', {
             setTimeout(() => {
                 OpenPay.token.extractFormAndCreate($('#payment-form'),
                     response => {
+                        console.log(response);
+
                         this.token_id = response.data.id;
                         if (response.data.card.points_card) {
                             swal({
@@ -74,9 +79,9 @@ var checkout = Vue.component('checkout', {
                             });
                         }
                         else {
+                            this.use_card_points = false;
                             this.processPayment();
                         }
-
                     }, err => {
                         console.log(err);
                         this.clearPaymentData();
@@ -86,7 +91,51 @@ var checkout = Vue.component('checkout', {
             }, 250);
         },
         processPayment: function () {
-
+            showLoader();
+            this.$http.post(APIUrl() + 'Payment/ProcessOrder', {
+                JsonOrder: JSON.stringify(this.Order),
+                Name: this.Name,
+                PhoneNumber: this.Order.Order_Client_Phone,
+                Email: this.Order.Order_Client_Email,
+                TokenId: this.token_id,
+                Amount: this.Order.Total_Ammount,
+                DeviceSessionId: this.deviceSessionId,
+                UseCardPoints: this.use_card_points
+            }, {
+                headers: {
+                    APIKey: config.BusgarageAPIKey
+                }
+            }).then(
+                response => {
+                    console.log(response);
+                    hideLoader();
+                },
+                err => {
+                    console.log(err);
+                    error_swal('Error...', 'Error interno estamos trabajando para solucionarlo');
+                    hideLoader();
+                }
+            );
+        },
+        GetTotalAmmount: function () {
+            showLoader();
+            this.$http.get(APIUrl() + `AdminContent/GetProducts/${this.Order.Order_Product_Ids}`, {
+                headers: {
+                    APIKey: config.BusgarageAPIKey
+                }
+            }).then(
+                response => {
+                    this.Order.Total_Ammount = response.body.reduce(function (sum, product) {
+                        return sum + product.Product_Price_Total;
+                    }, 0);
+                    hideLoader();
+                },
+                err => {
+                    console.log(err);
+                    error_swal('Error...', 'Error interno estamos trabajando para solucionarlo');
+                    hideLoader();
+                }
+            );
         },
         useShipmentAddress: function () {
             if (!this.Use_Shipment_Address) {
@@ -100,7 +149,7 @@ var checkout = Vue.component('checkout', {
         },
         formatCC: function (value) {
             var v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '')
-            var matches = v.match(/\d{4,16}/g);
+            var matches = v.match(/\d{4,15}/g);
             var match = matches && matches[0] || ''
             var parts = []
             for (let i = 0, len = match.length; i < len; i += 4) {
@@ -190,11 +239,14 @@ var checkout = Vue.component('checkout', {
         if (this.Order === null || this.Order === undefined) {
             this.$router.push("/checkout");
         }
+        else {
+            this.GetTotalAmmount();
+        }
 
         OpenPay.setId(config.OpenpayID);
         OpenPay.setApiKey(config.OpenpayPublicKey);
         OpenPay.setSandboxMode(config.OpenpayUseSandBox);
-        var deviceSessionId = OpenPay.deviceData.setup("payment-form", "deviceIdHiddenFieldName");
+        this.deviceSessionId = OpenPay.deviceData.setup("payment-form", "deviceIdHiddenFieldName");
     }
 });
 

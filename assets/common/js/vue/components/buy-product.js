@@ -21,6 +21,7 @@ var buy_product = Vue.component('buy-product', {
                 },
                 err => {
                     console.log(err);
+                    error_swal('Error...', 'Error interno estamos trabajando para solucionarlo');
                     hideLoader();
                 }
             );
@@ -55,6 +56,7 @@ var buy_product = Vue.component('buy-product', {
                 },
                 err => {
                     console.log(err);
+                    error_swal('Error...', 'Error interno estamos trabajando para solucionarlo');
                     hideLoader();
                 }
             );

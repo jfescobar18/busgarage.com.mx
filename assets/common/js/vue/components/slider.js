@@ -23,6 +23,7 @@ var slider = Vue.component('slider', {
                 },
                 err => {
                     console.log(err);
+                    error_swal('Error...', 'Error interno estamos trabajando para solucionarlo');
                     hideLoader();
                 }
             );

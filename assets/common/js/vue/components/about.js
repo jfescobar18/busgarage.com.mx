@@ -20,6 +20,7 @@ var about = Vue.component('about', {
                 },
                 err => {
                     console.log(err);
+                    error_swal('Error...', 'Error interno estamos trabajando para solucionarlo');
                     hideLoader();
                 }
             );
