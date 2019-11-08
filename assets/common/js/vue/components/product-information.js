@@ -69,6 +69,8 @@ var product_information = Vue.component('product-information', {
             var addProductToKart = true;
 
             this.KartItem.Product_Id = this.Product.Product_Id;
+            this.KartItem.Product_Name = this.Product.Product_Name;
+            this.KartItem.Price = this.Product.Product_Price_Total.replace('$', '').replace(',', '');
 
             if (this.Configuration.color.length > 0 && this.KartItem.Color.length == 0) {
                 this.displayColorMessage = 'initial';
@@ -104,7 +106,9 @@ var product_information = Vue.component('product-information', {
                         <img v-for="image in Galery" v-bind:src="image.Product_Galery_Image_Img"  />
                     </div>
                     <div class="product-config">
-                        <h2>{{ Product.Product_Price_Total }}</h2>
+                        <h2>{{ Product.Product_Price_Total }}
+                            <small><br />Envío gratis en todos nuestros productos</small>
+                        </h2>
                         <p>{{ Product.Product_Description }}</p>
                         <form v-on:submit.prevent="addtoKart">
                             <div v-if="Configuration.color.length > 0">
