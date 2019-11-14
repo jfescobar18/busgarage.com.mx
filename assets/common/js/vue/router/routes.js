@@ -1,6 +1,8 @@
 import home from '../components/home.js'
 import shop from '../components/shop.js'
+import search_result from '../components/search-result.js'
 import about from '../components/about.js'
+import privacy_notice from '../components/privacy-notice.js'
 import navbar from '../components/navbar.js'
 import search from '../components/search.js'
 import slider from '../components/slider.js'
@@ -35,9 +37,19 @@ const routes = [
         component: shop
     },
     {
+        path: '/search-result/:SearchWord/',
+        name: 'search-result',
+        component: search_result
+    },
+    {
         path: '/about',
         name: 'about',
         component: about
+    },
+    {
+        path: '/privacy-notice',
+        name: 'privacy-notice',
+        component: privacy_notice
     },
     {
         path: '/buy/:Product_Id',

@@ -1,5 +1,8 @@
 var all_products = Vue.component('all-products', {
     props: {
+        SearchWord: {
+            default: ''
+        },
         category: {
             default: 'all'
         },
@@ -24,9 +27,13 @@ var all_products = Vue.component('all-products', {
     },
     methods: {
         LogURL: function () {
-            this.category = this.$route.params['category'];
-
-            this.filterProductsByCategory();
+            if (this.SearchWord.length === 0) {
+                this.category = this.$route.params['category'];
+                this.filterProductsByCategory();
+            }
+            else {
+                this.searchProducts();
+            }
         },
         loadCategories: function () {
             showLoader();
@@ -49,6 +56,31 @@ var all_products = Vue.component('all-products', {
         loadAllProducts: function () {
             showLoader();
             this.$http.get(APIUrl() + 'AdminContent/GetAllProducts', {
+                headers: {
+                    APIKey: config.BusgarageAPIKey
+                }
+            }).then(
+                response => {
+                    this.Products = response.body.map(function (x) {
+                        x.Product_Price = formatMoney(x.Product_Price);
+                        x.Product_Price_Total = formatMoney(x.Product_Price_Total);
+                        x.Product_Img = APIUrl() + x.Product_Img;
+                        return x
+                    });
+
+                    this.showProducts();
+                    hideLoader();
+                },
+                err => {
+                    console.log(err);
+                    error_swal('Error...', 'Error interno estamos trabajando para solucionarlo');
+                    hideLoader();
+                }
+            );
+        },
+        searchProducts: function () {
+            showLoader();
+            this.$http.get(APIUrl() + `AdminContent/Search_Products/${this.SearchWord}`, {
                 headers: {
                     APIKey: config.BusgarageAPIKey
                 }
@@ -168,8 +200,9 @@ var all_products = Vue.component('all-products', {
     template: `
         <div>
             <div class="all-products">
-                <h1>Categorias</h1>
-                <div class="categories">
+                <h1 v-if="SearchWord.length === 0">Categorias</h1>
+                <h1 v-else>Resultados</h1>
+                <div v-if="SearchWord.length === 0" class="categories">
                     <router-link class="show-all" to="/shop/all">Todos los productos</router-link>
                     <router-link v-for="category in Categories" class="" v-bind:to="'/shop/' + category.Category_Id +''">{{ category.Category_Name }}</router-link>
                 </div>
@@ -192,8 +225,13 @@ var all_products = Vue.component('all-products', {
         }
     },
     mounted() {
-        this.loadCategories();
-        this.loadAllProducts();
+        if (this.SearchWord.length === 0) {
+            this.loadCategories();
+            this.loadAllProducts();
+        }
+        else {
+            this.searchProducts();
+        }
     }
 });
 

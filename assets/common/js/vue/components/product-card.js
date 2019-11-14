@@ -11,7 +11,7 @@ var product_card = Vue.component('product-card', {
     },
     template: `
         <div>
-            <div class="product-card new" v-on:click="buyProduct(Product.Product_Id);">
+            <div v-bind:class="'product-card new ' + Product.Product_Released" v-on:click="Product.Product_Released ? buyProduct(Product.Product_Id) : ''">
                 <img v-bind:src="Product.Product_Img" />
                 <div v-if="Product.Product_Is_New && Product.Product_Released" class="label-box">NEW</div>
                 

@@ -21,7 +21,7 @@ var garage_footer = Vue.component('garage-footer', {
                     </div>
                 </div>
                 <hr />
-                <h4><a href="#">Aviso de privacidad</a></h4>
+                <h4><router-link class="" to="/privacy-notice">Aviso de privacidad</router-link></h4>
             </div>
         </div>
     `
