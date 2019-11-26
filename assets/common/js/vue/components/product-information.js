@@ -124,21 +124,9 @@ var product_information = Vue.component('product-information', {
                                 <h2>Tamaño/Talla</h2>
                                 <p v-bind:style="'display: ' + displaySizeMessage">Selecciona una opción</p>
                                 <div class="size-container">
-                                    <label id="lblOptSize1" htmlFor="OptSize1" class="">
-                                        S
-                                        <input type="checkbox" id="OptSize1" value="Value1" v-on:click="selectOnlyThis('OptSize1')" />
-                                    </label>
-                                    <label id="lblOptSize2" htmlFor="OptSize2" class="">
-                                        L
-                                        <input type="checkbox" id="OptSize2" value="Value1" v-on:click="selectOnlyThis('OptSize2')" />
-                                    </label>
-                                    <label id="lblOptSize3" htmlFor="OptSize3" class="">
-                                        M
-                                        <input type="checkbox" id="OptSize3" value="Value1" v-on:click="selectOnlyThis('OptSize3')" />
-                                    </label>
-                                    <label id="lblOptSize4" htmlFor="OptSize4" class="">
-                                        XL
-                                        <input type="checkbox" id="OptSize4" value="Value1" v-on:click="selectOnlyThis('OptSize4')" />
+                                    <label v-for="(size, index) in Configuration.size" v-bind:id="'lblOptSize' + index" v-bind:htmlFor="'OptSize' + index" class="">
+                                        {{size}}    
+                                        <input type="checkbox" v-bind:id="'OptSize' + index" v-bind:value="size" v-on:click="selectOnlyThis('OptSize' + index)" />
                                     </label>
                                 </div>
                             </div>

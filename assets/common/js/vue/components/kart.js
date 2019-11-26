@@ -33,7 +33,7 @@ var kart = Vue.component('kart', {
                         x.Product_Img = APIUrl() + x.Product_Img;
                         return x
                     });
-
+                    
                     for (let i = 0; i < this.Kart.length; i++) {
                         this.Products[i].Product_Kart_Id = i + 1;
                         this.Kart[i].Product_Kart_Id = i + 1;
@@ -69,8 +69,7 @@ var kart = Vue.component('kart', {
         </div>
     `,
     created: function () {
-        this.Kart = JSON.parse(localStorage.getItem('Kart'));console.log(this.Kart);
-        
+        this.Kart = JSON.parse(localStorage.getItem('Kart'));
         if (this.Kart !== null) {
             this.loadKart();
         }
