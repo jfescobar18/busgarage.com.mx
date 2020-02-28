@@ -12,7 +12,7 @@ var product_information = Vue.component('product-information', {
                 size: []
             }
         },
-        KartItem: {
+        CartItem: {
             default: {
                 Product_Id: 0,
                 Price: 0,
@@ -59,41 +59,41 @@ var product_information = Vue.component('product-information', {
             document.getElementById(LabelId).className += ' active';
 
             if (id.includes('OptColor')) {
-                this.KartItem.Color = document.getElementById(id).value;
+                this.CartItem.Color = document.getElementById(id).value;
             }
             else {
-                this.KartItem.Size = document.getElementById(id).value;
+                this.CartItem.Size = document.getElementById(id).value;
             }
         },
-        addtoKart: function () {
-            var addProductToKart = true;
+        addtoCart: function () {
+            var addProductToCart = true;
 
-            this.KartItem.Product_Id = this.Product.Product_Id;
-            this.KartItem.Product_Name = this.Product.Product_Name;
-            this.KartItem.Price = this.Product.Product_Price_Total.replace('$', '').replace(',', '');
+            this.CartItem.Product_Id = this.Product.Product_Id;
+            this.CartItem.Product_Name = this.Product.Product_Name;
+            this.CartItem.Price = this.Product.Product_Price_Total.replace('$', '').replace(',', '');
 
-            if (this.Configuration.color.length > 0 && this.KartItem.Color.length == 0) {
+            if (this.Configuration.color.length > 0 && this.CartItem.Color.length == 0) {
                 this.displayColorMessage = 'initial';
-                addProductToKart = false;
+                addProductToCart = false;
             }
 
-            if (this.Configuration.size.length > 0 && this.KartItem.Size.length == 0) {
+            if (this.Configuration.size.length > 0 && this.CartItem.Size.length == 0) {
                 this.displaySizeMessage = 'initial';
-                addProductToKart = false;
+                addProductToCart = false;
             }
 
-            if (addProductToKart) {
-                var Kart = JSON.parse(localStorage.getItem('Kart'));
+            if (addProductToCart) {
+                var Cart = JSON.parse(localStorage.getItem('Cart'));
 
-                if (Kart === null || Kart === undefined) {
-                    Kart = [this.KartItem];
-                    localStorage.setItem('Kart', JSON.stringify(Kart));
+                if (Cart === null || Cart === undefined) {
+                    Cart = [this.CartItem];
+                    localStorage.setItem('Cart', JSON.stringify(Cart));
                 }
                 else {
-                    Kart.push(this.KartItem);
-                    localStorage.setItem('Kart', JSON.stringify(Kart));
+                    Cart.push(this.CartItem);
+                    localStorage.setItem('Cart', JSON.stringify(Cart));
                 }
-                this.$router.push("/Kart");
+                this.$router.push("/Cart");
             }
         }
     },
@@ -110,7 +110,7 @@ var product_information = Vue.component('product-information', {
                             <small><br />Envío gratis en todos nuestros productos</small>
                         </h2>
                         <p>{{ Product.Product_Description }}</p>
-                        <form v-on:submit.prevent="addtoKart">
+                        <form v-on:submit.prevent="addtoCart">
                             <div v-if="Configuration.color.length > 0">
                                 <h2>Color</h2>
                                 <p v-bind:style="'display: ' + displayColorMessage">Selecciona una opción</p>

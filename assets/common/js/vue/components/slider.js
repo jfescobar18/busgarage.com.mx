@@ -9,7 +9,7 @@ var slider = Vue.component('slider', {
             showLoader();
             this.$http.get(APIUrl() + 'AdminContent/GetSliderImages', {
                 headers: {
-                    APIKey: config.BusgarageAPIKey
+                    APIKey: window.config.APIKey
                 }
             }).then(
                 response => {

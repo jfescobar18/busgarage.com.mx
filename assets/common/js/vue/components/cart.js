@@ -1,6 +1,6 @@
-var kart = Vue.component('kart', {
+var cart = Vue.component('cart', {
     props: {
-        Kart: {
+        Cart: {
             default: {}
         },
         Products: {
@@ -11,13 +11,13 @@ var kart = Vue.component('kart', {
         }
     },
     methods: {
-        loadKart: function () {
-            var ProductIds = this.Kart.map(x => x.Product_Id).join(',');
+        loadCart: function () {
+            var ProductIds = this.Cart.map(x => x.Product_Id).join(',');
 
             showLoader();
-            this.$http.get(APIUrl() + `AdminContent/GetProducts/${ProductIds}`, {
+            this.$http.get(APIUrl() + `AdminProduct/GetProducts/${ProductIds}`, {
                 headers: {
-                    APIKey: config.BusgarageAPIKey
+                    APIKey: window.config.APIKey
                 }
             }).then(
                 response => {
@@ -34,16 +34,16 @@ var kart = Vue.component('kart', {
                         return x
                     });
                     
-                    for (let i = 0; i < this.Kart.length; i++) {
-                        this.Products[i].Product_Kart_Id = i + 1;
-                        this.Kart[i].Product_Kart_Id = i + 1;
+                    for (let i = 0; i < this.Cart.length; i++) {
+                        this.Products[i].Product_Cart_Id = i + 1;
+                        this.Cart[i].Product_Cart_Id = i + 1;
 
                         this.Products[i].Product_Configurations = {
-                            color: this.Kart[i].Color,
-                            size: this.Kart[i].Size,
+                            color: this.Cart[i].Color,
+                            size: this.Cart[i].Size,
                         };
                     }
-                    localStorage.setItem('Kart', JSON.stringify(this.Kart));
+                    localStorage.setItem('Cart', JSON.stringify(this.Cart));
                     hideLoader();
                 },
                 err => {
@@ -57,23 +57,23 @@ var kart = Vue.component('kart', {
     template: `
         <div>
             <navbar></navbar>
-            <div class="align-center" v-if="Kart === null || Kart === undefined">
+            <div class="align-center" v-if="Cart === null || Cart === undefined">
                 <h1>Tu carrito de compras esta vacio</h1>
-                <img src="./assets//common/img/sadVW.jpg" />
+                <img class="w50" src="./assets//common/img/empty-cart.jpg" alt="Empty Cart" />
             </div>
             <div v-else>
-                <kart-card v-for="product in Products" v-bind:Product="product"></kart-card>
+                <cart-card v-for="product in Products" v-bind:Product="product"></cart-card>
                 <p class="total">Total: <span>{{ Total }}</span></p>
                 <router-link to="/checkout" class="go-checkout">Proceder al Pago</router-link>
             </div>
         </div>
     `,
     created: function () {
-        this.Kart = JSON.parse(localStorage.getItem('Kart'));
-        if (this.Kart !== null) {
-            this.loadKart();
+        this.Cart = JSON.parse(localStorage.getItem('Cart'));
+        if (this.Cart !== null) {
+            this.loadCart();
         }
     }
 });
 
-export default kart;
+export default cart;

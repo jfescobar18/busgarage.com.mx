@@ -9,7 +9,7 @@ var off_banner = Vue.component('off-banner', {
             showLoader();
             this.$http.get(APIUrl() + 'AdminContent/GetOffersImage', {
                 headers: {
-                    APIKey: config.BusgarageAPIKey
+                    APIKey: window.config.APIKey
                 }
             }).then(
                 response => {
@@ -34,7 +34,7 @@ var off_banner = Vue.component('off-banner', {
             <div v-for="banner in Banner" class="body-banner" v-bind:style="'background-image: url(' + banner.Offers_Banner_Img + ');'">
                 <div class="content">
                     <h1>Descubre las ofertas</h1>
-                    <a href="#">GO</a>
+                    <a href="#">IR</a>
                 </div>
             </div>
         </div>

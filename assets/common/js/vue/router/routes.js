@@ -11,14 +11,14 @@ import product_card from '../components/product-card.js'
 import ranking from '../components/ranking.js'
 import buy_product from '../components/buy-product.js'
 import product_information from '../components/product-information.js'
-import kart from '../components/kart.js'
+import cart from '../components/cart.js'
 import off_banner from '../components/off-banner.js'
 import all_products from '../components/all-products.js'
-import kart_card from '../components/kart-card.js'
+import cart_card from '../components/cart-card.js'
 import checkout from '../components/checkout.js'
 import payment from '../components/payment.js'
 import coming_soon from '../components/coming-soon.js'
-import garage_footer from '../components/garage-footer.js'
+import cart_footer from '../components/cart-footer.js'
 
 const routes = [
     {
@@ -57,9 +57,9 @@ const routes = [
         component: buy_product
     },
     {
-        path: '/kart',
-        name: 'kart',
-        component: kart
+        path: '/cart',
+        name: 'cart',
+        component: cart
     },
     {
         path: '/checkout',

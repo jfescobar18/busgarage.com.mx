@@ -9,7 +9,7 @@ var about = Vue.component('about', {
             showLoader();
             this.$http.get(APIUrl() + 'AdminContent/GetAboutUsSections', {
                 headers: {
-                    APIKey: config.BusgarageAPIKey
+                    APIKey: window.config.APIKey
                 }
             }).then(
                 response => {

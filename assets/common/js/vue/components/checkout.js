@@ -1,6 +1,6 @@
 var checkout = Vue.component('checkout', {
     props: {
-        cat_Kart: {
+        cat_Cart: {
             default: {}
         },
         Order_Client_Name: {
@@ -50,7 +50,7 @@ var checkout = Vue.component('checkout', {
         saveOrder: function () {
             showLoader();
 
-            var Order_Product_Ids = this.cat_Kart.reduce(function (Ids, product) {
+            var Order_Product_Ids = this.cat_Cart.reduce(function (Ids, product) {
                 return Ids += product.Product_Id + ',';
             }, 0);
 
@@ -68,7 +68,7 @@ var checkout = Vue.component('checkout', {
                 Order_Client_City: this.Order_Client_City,
                 Order_Client_Zip: this.Order_Client_Zip,
                 Order_Client_Comments: this.Order_Client_Comments,
-                Kart_Json: JSON.stringify(this.cat_Kart),
+                Cart_Json: JSON.stringify(this.cat_Cart),
                 Order_Product_Ids: Order_Product_Ids
             }
 
@@ -80,7 +80,7 @@ var checkout = Vue.component('checkout', {
             showLoader();
             this.$http.get(APIUrl() + `AdminContent/GetSuburbs/${this.Order_Client_Zip}`, {
                 headers: {
-                    APIKey: config.BusgarageAPIKey
+                    APIKey: window.config.APIKey
                 }
             }).then(
                 response => {
@@ -157,9 +157,9 @@ var checkout = Vue.component('checkout', {
         </div>
     `,
     mounted() {
-        this.cat_Kart = JSON.parse(localStorage.getItem('Kart'));
+        this.cat_Cart = JSON.parse(localStorage.getItem('Cart'));
 
-        if (this.cat_Kart === null || this.cat_Kart === undefined) {
+        if (this.cat_Cart === null || this.cat_Cart === undefined) {
             this.$router.push("/Shop");
         }
     }

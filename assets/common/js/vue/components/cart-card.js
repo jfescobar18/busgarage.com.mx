@@ -1,4 +1,4 @@
-var kart_card = Vue.component('kart-card', {
+var cart_card = Vue.component('cart-card', {
     props: {
         Product: {
             default: {}
@@ -17,20 +17,20 @@ var kart_card = Vue.component('kart-card', {
                 this.htmlConfig += `<li>Tamaño/Talla: ${this.Product.Product_Configurations.size}</li>`;
             }
         },
-        deleteFromKart: function () {
-            var Kart = JSON.parse(localStorage.getItem('Kart'));
-            var Product_Kart_Id = this.Product.Product_Kart_Id
+        deleteFromCart: function () {
+            var Cart = JSON.parse(localStorage.getItem('Cart'));
+            var Product_Cart_Id = this.Product.Product_Cart_Id
 
-            var Kart = Kart.filter(function (product) {
-                return product.Product_Kart_Id !== Product_Kart_Id;
+            var Cart = Cart.filter(function (product) {
+                return product.Product_Cart_Id !== Product_Cart_Id;
             });
 
-            if (Kart.length == 0) {
-                localStorage.setItem('Kart', null);
+            if (Cart.length == 0) {
+                localStorage.setItem('Cart', null);
                 this.$router.push("/Shop");
             }
             else {
-                localStorage.setItem('Kart', JSON.stringify(Kart));
+                localStorage.setItem('Cart', JSON.stringify(Cart));
             }
 
             window.location.reload();
@@ -38,7 +38,7 @@ var kart_card = Vue.component('kart-card', {
     },
     template: `
         <div>
-             <div class="kart-card">
+             <div class="cart-card">
                 <div class="image-card">
                     <img v-bind:src="Product.Product_Img" />
                 </div>
@@ -56,11 +56,11 @@ var kart_card = Vue.component('kart-card', {
                         </ul>
                     </p>
                     <div class="delete">
-                        <button v-on:click="deleteFromKart" type="button" class=""><i class="fas fa-trash-alt"></i>&nbsp;Eliminar</button>
+                        <button v-on:click="deleteFromCart" type="button" class=""><i class="fas fa-trash-alt"></i>&nbsp;Eliminar</button>
                     </div>
                 </div>
              </div>
-             <hr class="kart-end" />
+             <hr class="cart-end" />
         </div>
     `,
     mounted() {
@@ -68,4 +68,4 @@ var kart_card = Vue.component('kart-card', {
     }
 });
 
-export default kart_card;
+export default cart_card;

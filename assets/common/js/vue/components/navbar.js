@@ -46,20 +46,22 @@ var navbar = Vue.component('navbar', {
                     </div>
                     <nav>
                         <div class="nav-mobile"><a v-on:click="toggleNavbar" id="nav-toggle" href="#"><span></span></router-link></div>
-                        <ul class="nav-list">
-                            <li>
-                                <router-link class="" to="/">Home</router-link>
-                            </li>
-                            <li>
-                                <router-link class="" to="/shop">Shop</router-link>
-                            </li>
-                            <li>
-                                <router-link class="" to="/about">About Us</router-link>
-                            </li>
-                            <li>
-                                <router-link class="" to="/kart"><i class="fas fa-shopping-cart"></i></router-link>
-                            </li>
-                        </ul>
+                        <div class="navbar-menu">
+                            <ul class="nav-list">
+                                <li>
+                                    <router-link class="" to="/">Home</router-link>
+                                </li>
+                                <li>
+                                    <router-link class="" to="/shop">Shop</router-link>
+                                </li>
+                                <li>
+                                    <router-link class="" to="/about">About Us</router-link>
+                                </li>
+                                <li>
+                                    <router-link class="" to="/cart"><i class="fas fa-shopping-cart"></i></router-link>
+                                </li>
+                            </ul>
+                        </div>
                     </nav>
                 </div>
             </section>
